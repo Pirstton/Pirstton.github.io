@@ -70,6 +70,29 @@
   position: relative;
   z-index: 2;
 }
+     .about-panel {
+    display: flex;
+    justify-content: space-between;
+    align-items: stretch;
+    gap: 24px;
+  }
+
+  .about-left {
+    width: 55%;
+  }
+
+  .about-right {
+    width: 45%;
+    display: flex;
+  }
+
+  .about-right img {
+    width: 100%;
+    max-height: 320px;
+    object-fit: cover;
+    border-radius: 14px;
+  }
+
   </style>
 </head>
 <body>
@@ -81,7 +104,8 @@
 
 
 <section class="about-feature">
-  <div class="about-left">
+  <div class="about-panel">
+     <div class="about-left">
     <div class="about-text">
       <h2>Sobre nosotros</h2>
       <p>
@@ -109,12 +133,13 @@
         <p>Enfoque en rendimiento y mejora constante.</p>
         <a href="resultados.html">Ir a resultados →</a>
       </div>
-    </div>
-  </div>
+    </div> <!-- feature-grid -->
+  </div> <!-- about-left -->
 
   <div class="about-right">
     <img src="https://i.postimg.cc/6qgGhtB4/Whats-App-Image-2026-03-29-at-01-23-29.jpg" alt="Espacio de estudio Pirstton">
   </div>
+    </div> <!-- about-panel -->
 </section>
 </div>
 
