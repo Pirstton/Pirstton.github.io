@@ -199,12 +199,11 @@
       letter-spacing: -0.04em;
       margin-bottom: 22px;
       max-width: 540px;
-      opacity: 0;
-      transform: translateY(28px);
-      filter: blur(10px);
+      opacity: 1;
+      transform: none;
+      filter: none;
       text-shadow: 0 10px 28px rgba(0, 0, 0, 0.16);
-      animation: titleReveal 1.15s cubic-bezier(.2,.75,.2,1) forwards;
-      animation-delay: 0.48s;
+      animation: none;
     }
 
     /* =========================================================
@@ -783,33 +782,83 @@
       .cta-box {
         padding: 28px 22px;
       }
-    
-      /* ===== ANIMACIÓN TÍTULO ===== */
-.hero-title {
-  opacity: 0;
-  transform: translateY(42px) scale(0.94);
-  animation: titleImpact 1.25s cubic-bezier(0.22, 1, 0.36, 1) forwards;
-  animation-delay: 0.4s;
+  
+      /* =========================================================
+   TITULO PIRSTTON KIDS LETRA POR LETRA
+========================================================= */
+.split-title {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.02em;
 }
 
-@keyframes titleImpact {
+.split-title span {
+  display: inline-block;
+  opacity: 0;
+  transform: translateX(0) rotate(0deg) scale(0.7);
+  will-change: transform, opacity;
+}
+
+.split-title .space {
+  width: 0.32em;
+  opacity: 1;
+  transform: none;
+}
+
+.split-title span:nth-child(odd):not(.space) {
+  --startX: -95px;
+  --startRotate: -80deg;
+}
+
+.split-title span:nth-child(even):not(.space) {
+  --startX: 95px;
+  --startRotate: 80deg;
+}
+
+.split-title span:nth-child(1)  { animation: letterBounceIn 1.08s cubic-bezier(0.22, 1, 0.36, 1) 0.00s forwards, titleFloat 5s ease-in-out 2.2s infinite; }
+.split-title span:nth-child(2)  { animation: letterBounceIn 1.08s cubic-bezier(0.22, 1, 0.36, 1) 0.08s forwards, titleFloat 5s ease-in-out 2.28s infinite; }
+.split-title span:nth-child(3)  { animation: letterBounceIn 1.08s cubic-bezier(0.22, 1, 0.36, 1) 0.16s forwards, titleFloat 5s ease-in-out 2.36s infinite; }
+.split-title span:nth-child(4)  { animation: letterBounceIn 1.08s cubic-bezier(0.22, 1, 0.36, 1) 0.24s forwards, titleFloat 5s ease-in-out 2.44s infinite; }
+.split-title span:nth-child(5)  { animation: letterBounceIn 1.08s cubic-bezier(0.22, 1, 0.36, 1) 0.32s forwards, titleFloat 5s ease-in-out 2.52s infinite; }
+.split-title span:nth-child(6)  { animation: letterBounceIn 1.08s cubic-bezier(0.22, 1, 0.36, 1) 0.40s forwards, titleFloat 5s ease-in-out 2.60s infinite; }
+.split-title span:nth-child(7)  { animation: letterBounceIn 1.08s cubic-bezier(0.22, 1, 0.36, 1) 0.48s forwards, titleFloat 5s ease-in-out 2.68s infinite; }
+.split-title span:nth-child(8)  { animation: letterBounceIn 1.08s cubic-bezier(0.22, 1, 0.36, 1) 0.56s forwards, titleFloat 5s ease-in-out 2.76s infinite; }
+.split-title span:nth-child(10) { animation: letterBounceIn 1.08s cubic-bezier(0.22, 1, 0.36, 1) 0.72s forwards, titleFloat 5s ease-in-out 2.92s infinite; }
+.split-title span:nth-child(11) { animation: letterBounceIn 1.08s cubic-bezier(0.22, 1, 0.36, 1) 0.80s forwards, titleFloat 5s ease-in-out 3.00s infinite; }
+.split-title span:nth-child(12) { animation: letterBounceIn 1.08s cubic-bezier(0.22, 1, 0.36, 1) 0.88s forwards, titleFloat 5s ease-in-out 3.08s infinite; }
+.split-title span:nth-child(13) { animation: letterBounceIn 1.08s cubic-bezier(0.22, 1, 0.36, 1) 0.96s forwards, titleFloat 5s ease-in-out 3.16s infinite; }
+
+@keyframes letterBounceIn {
   0% {
     opacity: 0;
-    transform: translateY(42px) scale(0.94);
-    filter: blur(4px);
+    transform: translateX(var(--startX)) rotate(var(--startRotate)) scale(0.7);
   }
-
-  60% {
+  55% {
     opacity: 1;
-    transform: translateY(0) scale(1.02);
-    filter: blur(0);
+    transform: translateX(0) rotate(10deg) scale(1.08);
   }
-
+  72% {
+    transform: translateX(0) rotate(-6deg) scale(0.96);
+  }
+  86% {
+    transform: translateX(0) rotate(3deg) scale(1.03);
+  }
   100% {
     opacity: 1;
-    transform: translateY(0) scale(1);
+    transform: translateX(0) rotate(0deg) scale(1);
   }
 }
+
+@keyframes titleFloat {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-4px);
+  }
+}
+ 
   </style>
 </head>
 <body>
@@ -835,7 +884,21 @@
         </div>
 
         <!-- TÍTULO PRINCIPAL -->
-        <h1 class="hero-title">Pirstton Kids</h1>
+        <h1 class="hero-title split-title" aria-label="Pirstton Kids">
+  <span>P</span>
+  <span>i</span>
+  <span>r</span>
+  <span>s</span>
+  <span>t</span>
+  <span>t</span>
+  <span>o</span>
+  <span>n</span>
+  <span class="space"></span>
+  <span>K</span>
+  <span>i</span>
+  <span>d</span>
+  <span>s</span>
+</h1>
 
         <!-- PÁRRAFO PRINCIPAL -->
         <p class="hero-text">
