@@ -783,7 +783,33 @@
       .cta-box {
         padding: 28px 22px;
       }
-    }
+    
+      /* ===== ANIMACIÓN TÍTULO ===== */
+.hero-title {
+  opacity: 0;
+  transform: translateY(42px) scale(0.94);
+  animation: titleImpact 1.25s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+  animation-delay: 0.4s;
+}
+
+@keyframes titleImpact {
+  0% {
+    opacity: 0;
+    transform: translateY(42px) scale(0.94);
+    filter: blur(4px);
+  }
+
+  60% {
+    opacity: 1;
+    transform: translateY(0) scale(1.02);
+    filter: blur(0);
+  }
+
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
   </style>
 </head>
 <body>
