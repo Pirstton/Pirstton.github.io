@@ -793,7 +793,7 @@
 
       limpiarError();
 
-      localStorage.setItem("pirstton_estudiante_actual", JSON.stringify(estudiante));
+      localStorage.setItem("estudianteActivo", JSON.stringify(estudiante));
 
       loginButton.textContent = "Validando acceso...";
       loginButton.disabled = true;
@@ -802,7 +802,7 @@
       loginButton.style.animation = "subtlePulseGlow 1.2s ease-in-out infinite";
 
       setTimeout(() => {
-        window.location.href = "welcome.html";
+        window.location.href = "Bienvenido.html";
       }, 950);
     }
 
