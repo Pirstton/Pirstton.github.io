@@ -1,1 +1,689 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Pirstton System | Bienvenido</title>
 
+  <style>
+    /* =========================================================
+       1. RESET GENERAL
+    ========================================================= */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    :root {
+      --bg-main: #070707;
+      --bg-card: rgba(24, 24, 24, 0.88);
+      --bg-card-2: rgba(20, 20, 20, 0.9);
+      --border-soft: rgba(255, 255, 255, 0.06);
+      --border-line: rgba(255, 255, 255, 0.07);
+      --text-main: #f4f4f4;
+      --text-soft: rgba(255, 255, 255, 0.68);
+      --text-label: rgba(255, 255, 255, 0.52);
+      --shadow-soft: 0 16px 40px rgba(0, 0, 0, 0.34);
+      --shadow-glow: 0 0 28px rgba(255, 255, 255, 0.08);
+      --radius-xl: 22px;
+      --radius-lg: 18px;
+      --radius-md: 14px;
+    }
+
+    body {
+      font-family: Inter, "Segoe UI", Arial, sans-serif;
+      background:
+        radial-gradient(circle at 18% 25%, rgba(255,255,255,0.03), transparent 28%),
+        radial-gradient(circle at 82% 72%, rgba(255,255,255,0.025), transparent 30%),
+        linear-gradient(90deg, rgba(255,255,255,0.012) 0%, transparent 18%, transparent 82%, rgba(255,255,255,0.01) 100%),
+        var(--bg-main);
+      color: var(--text-main);
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* =========================================================
+       2. CAPA DECORATIVA DE FONDO
+    ========================================================= */
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      background:
+        linear-gradient(to bottom, rgba(255,255,255,0.015), transparent 22%, transparent 78%, rgba(255,255,255,0.015)),
+        linear-gradient(to right, rgba(255,255,255,0.012), transparent 12%, transparent 88%, rgba(255,255,255,0.01));
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .ambient-glow {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 0;
+      overflow: hidden;
+    }
+
+    .ambient-glow::before,
+    .ambient-glow::after {
+      content: "";
+      position: absolute;
+      width: 420px;
+      height: 420px;
+      border-radius: 50%;
+      filter: blur(90px);
+      opacity: 0.07;
+    }
+
+    .ambient-glow::before {
+      top: 10%;
+      left: -8%;
+      background: #ffffff;
+    }
+
+    .ambient-glow::after {
+      right: -10%;
+      bottom: 6%;
+      background: #8f8f8f;
+    }
+
+    /* =========================================================
+       3. CONTENEDOR PRINCIPAL
+    ========================================================= */
+    .page {
+      position: relative;
+      z-index: 1;
+      width: min(1200px, calc(100% - 64px));
+      margin: 0 auto;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      padding: 56px 0;
+    }
+
+    .layout {
+      width: 100%;
+      display: grid;
+      grid-template-columns: 1.15fr 0.85fr;
+      gap: 34px;
+      align-items: start;
+    }
+
+    /* =========================================================
+       4. ANIMACIONES OPTIMIZADAS
+    ========================================================= */
+    .reveal {
+      opacity: 0;
+      transform: translateY(18px);
+      filter: blur(8px);
+      animation: fadeReveal 0.75s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+      will-change: opacity, transform, filter;
+    }
+
+    .delay-1 { animation-delay: 0.08s; }
+    .delay-2 { animation-delay: 0.16s; }
+    .delay-3 { animation-delay: 0.24s; }
+    .delay-4 { animation-delay: 0.32s; }
+    .delay-5 { animation-delay: 0.40s; }
+    .delay-6 { animation-delay: 0.48s; }
+
+    @keyframes fadeReveal {
+      to {
+        opacity: 1;
+        transform: translateY(0);
+        filter: blur(0);
+      }
+    }
+
+    @keyframes softPulse {
+      0%, 100% {
+        box-shadow: 0 0 0 rgba(255,255,255,0);
+      }
+      50% {
+        box-shadow: 0 0 18px rgba(255,255,255,0.08);
+      }
+    }
+
+    /* =========================================================
+       5. COLUMNA IZQUIERDA
+    ========================================================= */
+    .left-panel {
+      padding-top: 8px;
+    }
+
+    .system-label {
+      font-size: 0.95rem;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.72);
+      margin-bottom: 18px;
+      font-weight: 600;
+    }
+
+    .hero-title {
+      font-size: clamp(3.4rem, 7vw, 5rem);
+      line-height: 0.92;
+      letter-spacing: -0.055em;
+      font-weight: 800;
+      margin-bottom: 26px;
+    }
+
+    .status-block {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      margin-bottom: 32px;
+    }
+
+    .status-line {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      color: var(--text-soft);
+      font-size: 1.02rem;
+      line-height: 1.5;
+    }
+
+    .status-line strong {
+      color: var(--text-main);
+      font-weight: 600;
+    }
+
+    .status-icon {
+      width: 17px;
+      height: 17px;
+      flex-shrink: 0;
+      opacity: 0.9;
+    }
+
+    /* =========================================================
+       6. TARJETA PRINCIPAL DEL ESTUDIANTE
+    ========================================================= */
+    .student-card {
+      width: 100%;
+      background: linear-gradient(180deg, rgba(28,28,28,0.92), rgba(20,20,20,0.94));
+      border: 1px solid var(--border-soft);
+      border-radius: var(--radius-xl);
+      padding: 34px 36px 30px;
+      box-shadow: var(--shadow-soft);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      margin-bottom: 34px;
+    }
+
+    .card-label {
+      font-size: 0.94rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--text-label);
+      font-weight: 700;
+      margin-bottom: 10px;
+    }
+
+    .student-name {
+      font-size: clamp(1.9rem, 3vw, 2.55rem);
+      font-weight: 750;
+      letter-spacing: -0.04em;
+      line-height: 1.05;
+      margin-bottom: 8px;
+    }
+
+    .student-id {
+      font-size: 1rem;
+      color: rgba(255,255,255,0.62);
+      margin-bottom: 28px;
+    }
+
+    .card-divider {
+      width: 100%;
+      height: 1px;
+      background: linear-gradient(to right, rgba(255,255,255,0.04), rgba(255,255,255,0.08), rgba(255,255,255,0.04));
+      margin-bottom: 28px;
+    }
+
+    .student-meta {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 24px;
+    }
+
+    .meta-block {
+      min-width: 0;
+    }
+
+    .meta-title {
+      font-size: 0.9rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--text-label);
+      font-weight: 700;
+      margin-bottom: 10px;
+    }
+
+    .meta-value {
+      font-size: 1.02rem;
+      color: var(--text-main);
+      font-weight: 650;
+      line-height: 1.4;
+    }
+
+    /* =========================================================
+       7. BOTÓN PRINCIPAL
+    ========================================================= */
+    .action-row {
+      display: flex;
+      align-items: center;
+    }
+
+    .start-button {
+      appearance: none;
+      border: none;
+      cursor: pointer;
+      min-width: 240px;
+      padding: 20px 30px;
+      border-radius: 18px;
+      background: #efefef;
+      color: #111;
+      font-size: 1.12rem;
+      font-weight: 750;
+      display: inline-flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 18px;
+      box-shadow:
+        0 0 0 1px rgba(255,255,255,0.08),
+        0 12px 36px rgba(255,255,255,0.12);
+      transition: transform 0.22s ease, box-shadow 0.22s ease, background 0.22s ease;
+      animation: softPulse 4s ease-in-out infinite;
+    }
+
+    .start-button:hover {
+      transform: translateY(-2px);
+      background: #ffffff;
+      box-shadow:
+        0 0 0 1px rgba(255,255,255,0.1),
+        0 16px 42px rgba(255,255,255,0.16);
+    }
+
+    .start-button:active {
+      transform: translateY(0);
+    }
+
+    .start-button svg {
+      width: 18px;
+      height: 18px;
+      flex-shrink: 0;
+    }
+
+    /* =========================================================
+       8. COLUMNA DERECHA - TARJETAS INFORMATIVAS
+    ========================================================= */
+    .right-panel {
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+      padding-top: 58px;
+    }
+
+    .info-card {
+      background: linear-gradient(180deg, rgba(26,26,26,0.9), rgba(18,18,18,0.94));
+      border: 1px solid var(--border-soft);
+      border-radius: 18px;
+      padding: 24px 24px 22px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.22);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+    }
+
+    .info-top {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      margin-bottom: 10px;
+    }
+
+    .info-icon {
+      width: 18px;
+      height: 18px;
+      margin-top: 2px;
+      flex-shrink: 0;
+      opacity: 0.9;
+    }
+
+    .info-title {
+      font-size: 0.98rem;
+      font-weight: 760;
+      letter-spacing: -0.02em;
+      color: var(--text-main);
+      line-height: 1.35;
+    }
+
+    .info-text {
+      color: var(--text-soft);
+      font-size: 0.98rem;
+      line-height: 1.65;
+      padding-left: 30px;
+    }
+
+    /* =========================================================
+       9. MENSAJE DE FALLBACK / ERROR CONTROLADO
+    ========================================================= */
+    .fallback-message {
+      display: none;
+      max-width: 620px;
+      background: rgba(24, 24, 24, 0.94);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 22px;
+      padding: 28px;
+      box-shadow: var(--shadow-soft);
+    }
+
+    .fallback-message.show {
+      display: block;
+    }
+
+    .fallback-title {
+      font-size: 1.5rem;
+      font-weight: 760;
+      margin-bottom: 10px;
+    }
+
+    .fallback-text {
+      color: var(--text-soft);
+      line-height: 1.65;
+    }
+
+    /* =========================================================
+       10. RESPONSIVE
+    ========================================================= */
+    @media (max-width: 1080px) {
+      .layout {
+        grid-template-columns: 1fr;
+        gap: 28px;
+      }
+
+      .right-panel {
+        padding-top: 0;
+      }
+
+      .page {
+        width: min(100% - 36px, 1100px);
+        padding: 38px 0 46px;
+      }
+    }
+
+    @media (max-width: 640px) {
+      .page {
+        width: min(100% - 24px, 1100px);
+      }
+
+      .hero-title {
+        font-size: 3rem;
+      }
+
+      .student-card {
+        padding: 26px 22px 24px;
+      }
+
+      .student-meta {
+        grid-template-columns: 1fr;
+        gap: 18px;
+      }
+
+      .start-button {
+        width: 100%;
+        min-width: auto;
+      }
+
+      .info-card {
+        padding: 22px 18px 20px;
+      }
+
+      .info-text {
+        padding-left: 0;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- =========================================================
+       CAPA DECORATIVA DE FONDO
+  ========================================================= -->
+  <div class="ambient-glow"></div>
+
+  <!-- =========================================================
+       CONTENEDOR PRINCIPAL
+  ========================================================= -->
+  <main class="page">
+
+    <!-- =========================================================
+         MENSAJE DE RESPALDO SI NO HAY DATOS DEL ESTUDIANTE
+    ========================================================= -->
+    <section id="fallbackMessage" class="fallback-message">
+      <h2 class="fallback-title">Acceso no válido</h2>
+      <p class="fallback-text">
+        No se detectaron datos de estudiante en la sesión actual. Regresa al módulo de ingreso
+        para validar nuevamente el código académico antes de continuar.
+      </p>
+    </section>
+
+    <!-- =========================================================
+         LAYOUT PRINCIPAL DEL SISTEMA
+    ========================================================= -->
+    <section id="welcomeLayout" class="layout" style="display: none;">
+
+      <!-- =========================================================
+           COLUMNA IZQUIERDA
+      ========================================================= -->
+      <div class="left-panel">
+
+        <!-- ETIQUETA SUPERIOR DEL SISTEMA -->
+        <div class="system-label reveal delay-1">Pirstton System</div>
+
+        <!-- TITULO PRINCIPAL -->
+        <h1 class="hero-title reveal delay-2">Bienvenido</h1>
+
+        <!-- BLOQUE DE ESTADO -->
+        <div class="status-block reveal delay-3">
+          <div class="status-line">
+            <svg class="status-icon" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+              <circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="1.7"/>
+              <path d="M8.7 12.3l2.1 2.1 4.6-5.1" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+            <span>Simulacro asignado correctamente</span>
+          </div>
+
+          <div class="status-line">
+            <span><strong>Nivel académico detectado:</strong> <span id="academicLevel">Secundaria</span></span>
+          </div>
+
+          <div class="status-line">
+            <span><strong>Grado académico asignado:</strong> <span id="academicGrade">2do</span></span>
+          </div>
+        </div>
+
+        <!-- TARJETA DEL ESTUDIANTE -->
+        <article class="student-card reveal delay-4">
+
+          <div class="card-label">Estudiante</div>
+
+          <h2 id="studentName" class="student-name">Carlos Javier Quispe</h2>
+
+          <div id="studentId" class="student-id">ID: EST002</div>
+
+          <div class="card-divider"></div>
+
+          <div class="student-meta">
+            <div class="meta-block">
+              <div class="meta-title">Formato</div>
+              <div id="examFormat" class="meta-value">Opción múltiple</div>
+            </div>
+
+            <div class="meta-block">
+              <div class="meta-title">Duración</div>
+              <div id="examDuration" class="meta-value">30 minutos</div>
+            </div>
+          </div>
+        </article>
+
+        <!-- BOTON DE ACCION -->
+        <div class="action-row reveal delay-5">
+          <button id="startExamButton" class="start-button" type="button">
+            <span>Iniciar simulacro</span>
+            <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+              <path d="M5 12h13" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+              <path d="M13 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </button>
+        </div>
+      </div>
+
+      <!-- =========================================================
+           COLUMNA DERECHA - BLOQUES INFORMATIVOS
+      ========================================================= -->
+      <aside class="right-panel">
+
+        <article class="info-card reveal delay-3">
+          <div class="info-top">
+            <svg class="info-icon" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+              <path d="M3 12h4l2-5 4 10 2-5h6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+            <div class="info-title">Seguimiento en tiempo real</div>
+          </div>
+          <p class="info-text">
+            Monitoreo continuo del rendimiento académico durante la ejecución de la prueba.
+          </p>
+        </article>
+
+        <article class="info-card reveal delay-4">
+          <div class="info-top">
+            <svg class="info-icon" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+              <circle cx="12" cy="12" r="8.5" stroke="currentColor" stroke-width="1.7"/>
+              <circle cx="12" cy="12" r="3" stroke="currentColor" stroke-width="1.7"/>
+            </svg>
+            <div class="info-title">Precisión decimal</div>
+          </div>
+          <p class="info-text">
+            Evaluación estandarizada con cálculo de puntaje exacto hasta tres decimales para ranking.
+          </p>
+        </article>
+
+        <article class="info-card reveal delay-5">
+          <div class="info-top">
+            <svg class="info-icon" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+              <path d="M12 3l7 4v5c0 4.5-3 7.5-7 9-4-1.5-7-4.5-7-9V7l7-4z" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/>
+              <path d="M9.5 12.5h5M12 10v5" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/>
+            </svg>
+            <div class="info-title">Asignación automática</div>
+          </div>
+          <p class="info-text">
+            Configuración dinámica del banco de preguntas basada en el nivel y grado detectado del estudiante.
+          </p>
+        </article>
+      </aside>
+    </section>
+  </main>
+
+  <script>
+    /* =========================================================
+       1. UTILIDADES DEL SISTEMA
+    ========================================================= */
+
+    function normalizarNivelYGrado(textoNivel) {
+      if (!textoNivel || typeof textoNivel !== "string") {
+        return {
+          nivelAcademico: "No definido",
+          gradoAcademico: "No definido"
+        };
+      }
+
+      const valor = textoNivel.trim();
+
+      if (valor.toLowerCase().startsWith("primaria")) {
+        const grado = valor.replace(/primaria/i, "").trim();
+        return {
+          nivelAcademico: "Educación Primaria",
+          gradoAcademico: grado ? `${grado} grado` : "No definido"
+        };
+      }
+
+      if (valor.toLowerCase().startsWith("secundaria")) {
+        const grado = valor.replace(/secundaria/i, "").trim();
+        return {
+          nivelAcademico: "Educación Secundaria",
+          gradoAcademico: grado ? `${grado} año` : "No definido"
+        };
+      }
+
+      return {
+        nivelAcademico: valor,
+        gradoAcademico: "No definido"
+      };
+    }
+
+    function obtenerDuracionSegunNivel(textoNivel) {
+      if (!textoNivel) return "30 minutos";
+
+      const nivel = textoNivel.toLowerCase();
+
+      if (nivel.includes("primaria")) return "25 minutos";
+      if (nivel.includes("secundaria")) return "30 minutos";
+
+      return "30 minutos";
+    }
+
+    function obtenerFormatoEvaluacion() {
+      return "Opción múltiple";
+    }
+
+    /* =========================================================
+       2. LECTURA DE DATOS DEL ESTUDIANTE DESDE LA SESION
+    ========================================================= */
+
+    const estudianteGuardado = localStorage.getItem("estudianteActivo");
+    const fallbackMessage = document.getElementById("fallbackMessage");
+    const welcomeLayout = document.getElementById("welcomeLayout");
+
+    if (!estudianteGuardado) {
+      fallbackMessage.classList.add("show");
+
+      setTimeout(() => {
+        window.location.href = "index.html";
+      }, 2600);
+    } else {
+      const estudiante = JSON.parse(estudianteGuardado);
+
+      /* =======================================================
+         3. PREPARACION TECNICA DE DATOS
+      ======================================================= */
+      const datosNivel = normalizarNivelYGrado(estudiante.nivel);
+      const formatoEvaluacion = obtenerFormatoEvaluacion();
+      const duracionEvaluacion = obtenerDuracionSegunNivel(estudiante.nivel);
+
+      /* =======================================================
+         4. INYECCION DE DATOS EN LA INTERFAZ
+      ======================================================= */
+      document.getElementById("studentName").textContent = estudiante.nombre || "Estudiante no identificado";
+      document.getElementById("studentId").textContent = `ID: ${estudiante.codigo || "No definido"}`;
+      document.getElementById("academicLevel").textContent = datosNivel.nivelAcademico;
+      document.getElementById("academicGrade").textContent = datosNivel.gradoAcademico;
+      document.getElementById("examFormat").textContent = formatoEvaluacion;
+      document.getElementById("examDuration").textContent = duracionEvaluacion;
+
+      welcomeLayout.style.display = "grid";
+    }
+
+    /* =========================================================
+       5. BOTON DE CONTINUIDAD HACIA EL EXAMEN
+    ========================================================= */
+
+    const startExamButton = document.getElementById("startExamButton");
+
+    startExamButton.addEventListener("click", () => {
+      window.location.href = "exam.html";
+    });
+  </script>
+</body>
+</html>
