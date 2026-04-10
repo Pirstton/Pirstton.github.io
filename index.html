@@ -3,1579 +3,777 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Pirstton</title>
-
+  <title>Pirstton - Plantilla base</title>
   <style>
     /* =========================================================
-       1) VARIABLES GLOBALES
-       ========================================================= */
-    :root {
-      --bg-main: #ebe4e6;
-      --bg-soft: #f1ebed;
-      --panel: #d7d0d4;
-      --panel-dark: #5c5960;
-      --panel-darker: #26272c;
-      --panel-mid: #7e787f;
-      --text-main: #24252b;
-      --text-soft: #56535b;
-      --text-light: #f4f1f3;
-      --gold: #b38a5d;
-      --gold-strong: #c89b69;
-      --gold-deep: #8a6844;
-      --line-soft: rgba(179, 138, 93, 0.24);
-      --shadow-soft: 0 18px 40px rgba(24, 24, 28, 0.12);
-      --shadow-card: 0 16px 36px rgba(26, 26, 30, 0.16);
-      --shadow-hover: 0 22px 48px rgba(21, 21, 27, 0.22);
-      --radius-xl: 28px;
-      --radius-lg: 22px;
-      --radius-md: 16px;
-      --ease-main: cubic-bezier(0.22, 1, 0.36, 1);
-      --ease-snap: cubic-bezier(0.34, 1.56, 0.64, 1);
-      --max-width: 1440px;
-    }
-
-    /* =========================================================
-       2) RESET BÁSICO
-       ========================================================= */
+       01. RESET GENERAL
+    ========================================================= */
     * {
       box-sizing: border-box;
       margin: 0;
       padding: 0;
     }
 
-    html {
-      scroll-behavior: smooth;
-    }
-
+    /* =========================================================
+       02. BASE DEL DOCUMENTO
+    ========================================================= */
     body {
       min-height: 100vh;
-      font-family: Inter, Arial, Helvetica, sans-serif;
-      background:
-        radial-gradient(circle at top right, rgba(228, 195, 151, 0.24), transparent 24%),
-        radial-gradient(circle at bottom left, rgba(179, 138, 93, 0.08), transparent 18%),
-        linear-gradient(180deg, #e9e2e5 0%, #ede7e9 48%, #e8e0e3 100%);
-      color: var(--text-main);
-      overflow-x: hidden;
-      -webkit-font-smoothing: antialiased;
-      -moz-osx-font-smoothing: grayscale;
-      text-rendering: geometricPrecision;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: #d9c8bc;
+      font-family: Arial, Helvetica, sans-serif;
+      color: #222;
+      padding: 18px;
     }
 
-    a {
+    /* =========================================================
+       03. CONTENEDOR PRINCIPAL
+       - Mantiene la estructura general de la referencia.
+       - Preparado para futuras animaciones.
+    ========================================================= */
+    .frame {
+      width: min(1200px, 95vw);
+      aspect-ratio: 768 / 442;
+      background: #efefef;
+      position: relative;
+      overflow: hidden;
+      box-shadow: 0 24px 40px rgba(0, 0, 0, 0.14);
+    }
+
+    /* =========================================================
+       04. BARRA SUPERIOR
+    ========================================================= */
+    .topbar {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 58px;
+      border-bottom: 1px solid #9c9c9c;
+      background: rgba(255, 255, 255, 0.18);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 34px;
+      z-index: 10;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+      color: #111;
+      flex-shrink: 0;
+    }
+
+    .brand-icon {
+      width: 16px;
+      height: 16px;
+      background: #c39267;
+      border: 1px solid #8f6746;
+      position: relative;
+      display: inline-block;
+    }
+
+    .brand-icon::before {
+      content: "";
+      position: absolute;
+      left: 2px;
+      right: 2px;
+      bottom: 2px;
+      height: 7px;
+      background: #f2e8df;
+      clip-path: polygon(0 100%, 0 45%, 50% 0, 100% 45%, 100% 100%);
+    }
+
+    .nav {
+      display: flex;
+      align-items: center;
+      gap: 28px;
+      font-size: 12px;
+      color: #111;
+      margin-left: auto;
+      padding-right: 168px;
+    }
+
+    .nav a {
       text-decoration: none;
       color: inherit;
     }
 
-    button {
-      font: inherit;
-      border: none;
-      outline: none;
-      background: none;
-      cursor: pointer;
-    }
-
-    img {
-      display: block;
-      max-width: 100%;
-    }
-
-    /* =========================================================
-       3) FONDO DECORATIVO GENERAL
-       ========================================================= */
-    .page-shell {
-      position: relative;
-      width: 100%;
-      overflow: hidden;
-      isolation: isolate;
-    }
-
-    .page-shell::before,
-    .page-shell::after {
-      content: "";
-      position: absolute;
-      pointer-events: none;
-      z-index: 0;
-    }
-
-    .page-shell::before {
-      width: 420px;
-      height: 420px;
-      right: -150px;
-      top: -140px;
-      border-radius: 50%;
-      background: radial-gradient(circle, rgba(245, 206, 148, 0.3), rgba(245, 206, 148, 0) 72%);
-      filter: saturate(1.05);
-    }
-
-    .page-shell::after {
-      width: 520px;
-      height: 520px;
-      left: -220px;
-      bottom: -260px;
-      border-radius: 50%;
-      background: radial-gradient(circle, rgba(179, 138, 93, 0.08), rgba(179, 138, 93, 0) 74%);
-    }
-
-    .decor-grid,
-    .decor-corner,
-    .decor-ring,
-    .decor-lines {
-      position: absolute;
-      pointer-events: none;
-      z-index: 0;
-      opacity: 0.58;
-    }
-
-    .decor-grid {
-      width: 74px;
-      height: 74px;
-      background-image: radial-gradient(circle, rgba(165, 154, 161, 0.42) 18%, transparent 19%);
-      background-size: 12px 12px;
-    }
-
-    .decor-grid.top {
-      top: 270px;
-      left: calc(50% - 90px);
-    }
-
-    .decor-grid.right {
-      bottom: 150px;
-      right: 44px;
-    }
-
-    .decor-corner {
-      border: 1px solid rgba(177, 165, 171, 0.28);
-      width: 170px;
-      height: 170px;
-    }
-
-    .decor-corner.one {
-      top: 236px;
-      right: 92px;
-      border-left: none;
-      border-bottom: none;
-    }
-
-    .decor-ring {
-      width: 82px;
-      height: 82px;
-      border: 2px solid rgba(179, 138, 93, 0.28);
-      border-radius: 50%;
-    }
-
-    .decor-ring.left {
-      left: -18px;
-      bottom: 138px;
-      border-right-color: transparent;
-      border-top-color: transparent;
-    }
-
-    .decor-ring.right {
-      right: -8px;
-      bottom: 124px;
-      border-left-color: transparent;
-      border-top-color: transparent;
-    }
-
-    .decor-lines {
-      width: 70px;
-      height: 24px;
-      left: 110px;
-      bottom: 28px;
-      background: repeating-linear-gradient(
-        90deg,
-        rgba(190, 175, 182, 0.35) 0,
-        rgba(190, 175, 182, 0.35) 2px,
-        transparent 2px,
-        transparent 7px
-      );
-    }
-
-    /* =========================================================
-       4) CONTENEDOR PRINCIPAL
-       ========================================================= */
-    .site-wrap {
-      position: relative;
-      z-index: 1;
-      width: min(calc(100% - 44px), var(--max-width));
-      margin: 22px auto 34px;
-      background: linear-gradient(180deg, rgba(255,255,255,0.26), rgba(255,255,255,0.12));
-      border: 1px solid rgba(255,255,255,0.4);
-      border-radius: 32px;
-      box-shadow: var(--shadow-soft);
-      backdrop-filter: blur(8px);
-    }
-
-    /* =========================================================
-       5) BARRA SUPERIOR
-       ========================================================= */
-    .topbar {
-      display: grid;
-      grid-template-columns: 1fr auto;
-      align-items: center;
-      gap: 20px;
-      padding: 34px 42px 24px;
-      position: relative;
-    }
-
-    .brand-row {
-      display: flex;
-      align-items: flex-start;
-      gap: 16px;
-      min-width: 0;
-    }
-
-    .brand-mark {
-      display: flex;
-      align-items: center;
-      gap: 4px;
-      padding-top: 4px;
-      flex-shrink: 0;
-    }
-
-    .mark-piece {
-      width: 10px;
-      border-radius: 2px;
-      background: linear-gradient(180deg, #1a1b20, #3d3e46);
-      transform-origin: bottom center;
-      opacity: 0;
-      animation: markPieceIn 0.78s var(--ease-main) forwards;
-      box-shadow: 0 6px 14px rgba(16, 16, 20, 0.22);
-    }
-
-    .mark-piece:nth-child(1) {
-      height: 28px;
-      transform: translateY(-24px) rotate(-18deg);
-      animation-delay: 0.05s;
-    }
-
-    .mark-piece:nth-child(2) {
-      height: 34px;
-      transform: translateY(-26px) rotate(-12deg);
-      animation-delay: 0.11s;
-    }
-
-    .mark-piece:nth-child(3) {
-      height: 40px;
-      transform: translateY(-30px) rotate(-6deg);
-      animation-delay: 0.17s;
-    }
-
-    .mark-piece:nth-child(4) {
-      height: 32px;
-      transform: translateY(-25px) rotate(10deg);
-      animation-delay: 0.23s;
-    }
-
-    .brand-copy {
-      min-width: 0;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      gap: 8px;
-    }
-
-    .brand-title {
-      display: flex;
-      align-items: center;
-      flex-wrap: wrap;
-      gap: 2px;
-      line-height: 1;
-      min-height: 46px;
-    }
-
-    .brand-title .letter {
-      position: relative;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      font-size: clamp(1.8rem, 2vw, 2.65rem);
-      font-weight: 900;
-      letter-spacing: 0.04em;
-      color: #1f2026;
-      opacity: 0;
-      transform: translateY(24px) scale(0.72) rotateX(70deg);
-      transform-origin: center bottom;
-      text-shadow: 0 2px 0 rgba(255,255,255,0.32);
-      animation: titlePuzzleIn 0.78s var(--ease-snap) forwards;
-    }
-
-    .brand-title .letter:nth-child(1) { animation-delay: 0.22s; }
-    .brand-title .letter:nth-child(2) { animation-delay: 0.28s; }
-    .brand-title .letter:nth-child(3) { animation-delay: 0.34s; }
-    .brand-title .letter:nth-child(4) { animation-delay: 0.40s; }
-    .brand-title .letter:nth-child(5) { animation-delay: 0.46s; }
-    .brand-title .letter:nth-child(6) { animation-delay: 0.52s; }
-    .brand-title .letter:nth-child(7) { animation-delay: 0.58s; }
-    .brand-title .letter:nth-child(8) { animation-delay: 0.64s; }
-    .brand-title .letter:nth-child(9) { animation-delay: 0.70s; }
-
-    .brand-subtitle {
-      font-size: clamp(0.76rem, 0.95vw, 1rem);
-      line-height: 1.45;
-      color: #67636c;
-      max-width: 760px;
-      opacity: 0;
-      transform: translateY(18px);
-      animation: fadeRise 0.8s var(--ease-main) 0.88s forwards;
-    }
-
-    /* =========================================================
-       6) BOTÓN PIRSTTON KIDS
-       ========================================================= */
+    /* Botón nuevo superior derecho: Pirstton Kids */
     .kids-button {
-      position: relative;
+      position: absolute;
+      top: 10px;
+      right: 34px;
+      min-width: 128px;
+      height: 38px;
+      padding: 0 18px;
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      min-width: 332px;
-      min-height: 120px;
-      padding: 14px 18px;
-      border-radius: 24px;
-      background:
-        linear-gradient(135deg, #ffb153 0%, #ff9c4c 36%, #fa8f3c 64%, #f18d44 100%);
-      border: 3px solid rgba(255,255,255,0.78);
-      box-shadow:
-        0 0 0 1px rgba(255,255,255,0.32) inset,
-        0 0 24px rgba(255, 182, 75, 0.48),
-        0 14px 28px rgba(246, 144, 63, 0.28);
-      overflow: hidden;
-      isolation: isolate;
-      opacity: 0;
-      transform: translateY(-18px) scale(0.92);
-      animation: kidsButtonEnter 0.9s var(--ease-snap) 1.02s forwards;
-      transition:
-        transform 0.32s var(--ease-main),
-        box-shadow 0.32s var(--ease-main),
-        filter 0.32s var(--ease-main);
-    }
-
-    .kids-button::before,
-    .kids-button::after {
-      content: "";
-      position: absolute;
-      inset: 0;
-      pointer-events: none;
-      z-index: 0;
-    }
-
-    .kids-button::before {
-      background:
-        radial-gradient(circle at 16% 24%, rgba(255,255,255,0.28), transparent 18%),
-        radial-gradient(circle at 86% 26%, rgba(255, 240, 210, 0.22), transparent 16%),
-        radial-gradient(circle at 74% 78%, rgba(255,255,255,0.12), transparent 16%);
-      mix-blend-mode: screen;
-    }
-
-    .kids-button::after {
-      background-image: radial-gradient(circle, rgba(255, 241, 212, 0.46) 12%, transparent 14%);
-      background-size: 18px 18px;
-      opacity: 0.18;
+      border: 1px solid #b89574;
+      background: linear-gradient(180deg, #f8f5f2 0%, #ead6c5 100%);
+      color: #2b2b2b;
+      text-decoration: none;
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.3px;
+      box-shadow: 0 6px 14px rgba(0, 0, 0, 0.10);
+      z-index: 12;
+      transition: transform 0.25s ease, box-shadow 0.25s ease;
     }
 
     .kids-button:hover {
-      transform: translateY(-7px) scale(1.035);
-      box-shadow:
-        0 0 0 1px rgba(255,255,255,0.3) inset,
-        0 0 32px rgba(255, 183, 74, 0.52),
-        0 22px 42px rgba(241, 136, 52, 0.34);
-      filter: saturate(1.06);
-    }
-
-    .kids-button:hover .kids-text-top,
-    .kids-button:hover .kids-text-bottom {
       transform: translateY(-1px);
-    }
-
-    .kids-button:active {
-      transform: translateY(-2px) scale(0.988);
-    }
-
-    .kids-inner {
-      position: relative;
-      z-index: 2;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 14px;
-      width: 100%;
-    }
-
-    .kids-mascot-wrap {
-      position: relative;
-      width: 92px;
-      height: 74px;
-      flex-shrink: 0;
-      animation: mascotBiteCycle 3s infinite 1.6s;
-      transform-origin: 72% 52%;
-      will-change: transform;
-    }
-
-    .kids-mascot {
-      position: absolute;
-      inset: 0;
-    }
-
-    .kids-outline,
-    .kids-outline::before,
-    .kids-outline::after,
-    .kids-ear-left,
-    .kids-ear-right,
-    .kids-eye,
-    .kids-eye.right,
-    .kids-mouth {
-      position: absolute;
-      box-sizing: border-box;
-    }
-
-    .kids-outline {
-      width: 62px;
-      height: 52px;
-      border: 4px solid #fff5ec;
-      border-radius: 52% 52% 46% 46%;
-      left: 12px;
-      top: 10px;
-      background: transparent;
-      box-shadow: 0 0 0 1px rgba(255,255,255,0.16) inset;
-    }
-
-    .kids-ear-left,
-    .kids-ear-right {
-      width: 18px;
-      height: 18px;
-      border: 4px solid #fff5ec;
-      border-radius: 8px 8px 3px 8px;
-      top: 0;
-      background: transparent;
-    }
-
-    .kids-ear-left {
-      left: 16px;
-      transform: rotate(-28deg);
-    }
-
-    .kids-ear-right {
-      right: 12px;
-      transform: rotate(32deg);
-    }
-
-    .kids-eye,
-    .kids-eye.right {
-      width: 6px;
-      height: 6px;
-      border-radius: 50%;
-      background: #fff5ec;
-      top: 28px;
-      left: 26px;
-    }
-
-    .kids-eye.right {
-      left: 48px;
-    }
-
-    .kids-mouth {
-      width: 22px;
-      height: 12px;
-      left: 31px;
-      top: 39px;
-      border: 4px solid #fff5ec;
-      border-top: 0;
-      border-left-color: transparent;
-      border-right-color: transparent;
-      border-bottom-left-radius: 18px;
-      border-bottom-right-radius: 18px;
-      transform-origin: center top;
-      animation: mouthBite 3s infinite 1.6s;
-    }
-
-    .kids-bite-mark {
-      position: absolute;
-      right: -7px;
-      top: 31px;
-      width: 26px;
-      height: 20px;
-      border-radius: 14px;
-      background: linear-gradient(180deg, rgba(255,255,255,0.72), rgba(255,255,255,0));
-      opacity: 0;
-      filter: blur(0.2px);
-      animation: biteFlash 3s infinite 1.6s;
-      pointer-events: none;
-    }
-
-    .kids-copy {
-      display: flex;
-      flex-direction: column;
-      align-items: flex-start;
-      line-height: 0.94;
-      flex: 1;
-      min-width: 0;
-      padding-right: 12px;
-    }
-
-    .kids-text-top {
-      font-size: 1.85rem;
-      font-weight: 800;
-      letter-spacing: 0.03em;
-      color: #fff7ef;
-      transition: transform 0.28s var(--ease-main);
-      text-shadow: 0 2px 0 rgba(138, 87, 32, 0.28);
-    }
-
-    .kids-text-bottom {
-      font-size: 3rem;
-      font-weight: 900;
-      letter-spacing: 0.02em;
-      color: #ffd940;
-      -webkit-text-stroke: 1.2px rgba(155, 102, 27, 0.26);
-      text-shadow:
-        0 3px 0 rgba(141, 86, 24, 0.22),
-        0 10px 20px rgba(124, 72, 18, 0.18);
-      transition: transform 0.28s var(--ease-main);
-    }
-
-    .kids-stars {
-      position: absolute;
-      inset: 0;
-      pointer-events: none;
-      z-index: 1;
-    }
-
-    .star {
-      position: absolute;
-      display: block;
-      width: 12px;
-      height: 12px;
-      background: linear-gradient(180deg, #fff0ba, #ffe191);
-      clip-path: polygon(50% 0%, 61% 39%, 100% 50%, 61% 61%, 50% 100%, 39% 61%, 0% 50%, 39% 39%);
-      opacity: 0.75;
-      animation: twinkleStar 2.4s ease-in-out infinite;
-      filter: drop-shadow(0 0 8px rgba(255, 224, 132, 0.42));
-    }
-
-    .star.one {
-      right: 26px;
-      top: 24px;
-      animation-delay: 0.2s;
-    }
-
-    .star.two {
-      right: 14px;
-      top: 44px;
-      width: 10px;
-      height: 10px;
-      animation-delay: 0.72s;
-    }
-
-    .star.three {
-      right: 40px;
-      top: 8px;
-      width: 9px;
-      height: 9px;
-      animation-delay: 1.1s;
+      box-shadow: 0 8px 18px rgba(0, 0, 0, 0.14);
     }
 
     /* =========================================================
-       7) HERO PRINCIPAL
-       ========================================================= */
-    .hero {
-      padding: 0 28px 0;
-    }
-
-    .hero-card {
-      position: relative;
-      display: grid;
-      grid-template-columns: minmax(350px, 1.04fr) minmax(320px, 0.96fr);
-      align-items: stretch;
-      min-height: 476px;
-      background:
-        radial-gradient(circle at 20% 18%, rgba(255,255,255,0.14), transparent 18%),
-        radial-gradient(circle at 65% 50%, rgba(255,255,255,0.06), transparent 28%),
-        linear-gradient(135deg, #4b4950 0%, #56525b 34%, #444149 62%, #2a2d33 100%);
-      border: 1px solid rgba(255,255,255,0.12);
-      border-radius: 0 0 0 0;
-      overflow: hidden;
-      box-shadow: var(--shadow-card);
-    }
-
-    .hero-card::before {
-      content: "";
+       05. DETALLES DECORATIVOS SUPERIORES
+    ========================================================= */
+    .left-divider {
       position: absolute;
-      inset: 0;
-      background:
-        linear-gradient(90deg, rgba(255,255,255,0.045), transparent 24%, transparent 76%, rgba(255,255,255,0.03)),
-        linear-gradient(180deg, rgba(255,255,255,0.06), rgba(255,255,255,0));
-      pointer-events: none;
-      z-index: 0;
+      top: 0;
+      left: 114px;
+      width: 1px;
+      height: 58px;
+      background: #9d9d9d;
+      z-index: 5;
     }
 
-    .hero-copy,
-    .hero-visual {
-      position: relative;
+    .top-circle {
+      position: absolute;
+      top: -18px;
+      left: 135px;
+      width: 84px;
+      height: 84px;
+      border: 1px solid #9c9c9c;
+      border-radius: 50%;
+      z-index: 2;
+    }
+
+    /* =========================================================
+       06. PANEL OSCURO DERECHO
+    ========================================================= */
+    .dark-panel {
+      position: absolute;
+      top: 58px;
+      right: 0;
+      width: 26%;
+      height: calc(100% - 58px);
+      background: #262626;
       z-index: 1;
     }
 
-    .hero-copy {
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      padding: 54px 42px 46px 52px;
-      color: var(--text-light);
-      min-width: 0;
+    /* =========================================================
+       07. ZONA HERO
+    ========================================================= */
+    .hero {
+      position: absolute;
+      inset: 58px 0 0 0;
+      z-index: 2;
     }
 
-    .hero-title {
-      display: flex;
-      flex-direction: column;
-      gap: 6px;
-      margin-bottom: 22px;
+    /* =========================================================
+       08. TITULAR PRINCIPAL
+    ========================================================= */
+    .title {
+      position: absolute;
+      left: 38px;
+      top: 40px;
       line-height: 0.95;
+      z-index: 6;
     }
 
-    .hero-line {
-      display: inline-block;
-      font-size: clamp(2rem, 3vw, 3.95rem);
-      font-weight: 900;
-      letter-spacing: 0.01em;
-      opacity: 0;
-      transform: translateX(-32px);
-      animation: revealSide 0.9s var(--ease-main) forwards;
+    .title .line1 {
+      display: block;
+      font-size: clamp(34px, 4.2vw, 58px);
+      font-weight: 800;
+      letter-spacing: 1px;
+      color: #222;
+      text-shadow: 1px 2px 0 #777;
     }
 
-    .hero-line:first-child {
-      color: #f0ecee;
-      animation-delay: 1.06s;
+    .title .line2 {
+      display: block;
+      margin-top: 6px;
+      font-size: clamp(30px, 4vw, 54px);
+      font-weight: 300;
+      color: #bf8d65;
+      letter-spacing: 1px;
     }
 
-    .hero-line.accent {
-      color: var(--gold);
-      animation-delay: 1.18s;
-    }
-
-    .hero-subheadline {
-      font-size: clamp(1rem, 1.18vw, 1.45rem);
-      font-weight: 600;
-      color: #f3edf0;
-      line-height: 1.45;
-      margin-bottom: 24px;
-      opacity: 0;
-      transform: translateY(18px);
-      animation: fadeRise 0.78s var(--ease-main) 1.28s forwards;
-    }
-
-    .hero-subheadline .accent-text {
-      color: #efb369;
-      font-weight: 700;
-    }
-
-    .hero-description {
-      max-width: 620px;
-      font-size: clamp(0.96rem, 1vw, 1.18rem);
+    /* =========================================================
+       09. TEXTO DESCRIPTIVO
+    ========================================================= */
+    .desc {
+      position: absolute;
+      left: 42px;
+      top: 145px;
+      width: 220px;
+      font-size: 8px;
       line-height: 1.8;
-      color: rgba(248, 243, 245, 0.92);
-      opacity: 0;
-      transform: translateY(22px);
-      animation: fadeRise 0.82s var(--ease-main) 1.38s forwards;
+      color: #8b8b8b;
+      z-index: 6;
     }
 
-    .cta-row {
+    /* =========================================================
+       10. BOTONES LADO IZQUIERDO
+       - Read More
+       - Resultados académicos
+       - Examen simulacro
+    ========================================================= */
+    .button-stack {
+      position: absolute;
+      left: 42px;
+      top: 212px;
       display: flex;
-      align-items: center;
-      gap: 16px;
-      margin-top: 32px;
-      opacity: 0;
-      transform: translateY(20px);
-      animation: fadeRise 0.84s var(--ease-main) 1.5s forwards;
+      flex-direction: column;
+      gap: 12px;
+      z-index: 7;
     }
 
-    .main-cta {
-      position: relative;
+    .hero-button {
+      min-width: 152px;
+      border: none;
+      padding: 11px 18px;
+      font-size: 10px;
+      font-weight: 700;
+      cursor: pointer;
+      text-decoration: none;
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      min-width: 220px;
-      min-height: 68px;
-      padding: 16px 28px;
-      border-radius: 14px;
-      background: linear-gradient(180deg, #ba9568 0%, #a98255 100%);
-      color: #f7efe7;
-      font-size: 1.18rem;
-      font-weight: 800;
-      letter-spacing: 0.03em;
-      box-shadow:
-        0 10px 22px rgba(124, 86, 48, 0.28),
-        inset 0 1px 0 rgba(255,255,255,0.2);
-      transition:
-        transform 0.3s var(--ease-main),
-        box-shadow 0.3s var(--ease-main),
-        filter 0.3s var(--ease-main);
-      overflow: hidden;
-      isolation: isolate;
+      letter-spacing: 0.3px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.12);
+      transition: transform 0.25s ease, box-shadow 0.25s ease;
     }
 
-    .main-cta::before {
-      content: "";
+    .hero-button:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 8px 14px rgba(0, 0, 0, 0.14);
+    }
+
+    .hero-button.primary {
+      background: #191919;
+      color: #fff;
+    }
+
+    .hero-button.secondary {
+      background: #c39267;
+      color: #fff;
+    }
+
+    /* =========================================================
+       11. TARJETA 50% OFF
+    ========================================================= */
+    .discount {
       position: absolute;
-      inset: -80% auto -80% -30%;
-      width: 30%;
-      transform: skewX(-24deg) translateX(-220%);
-      background: linear-gradient(180deg, transparent, rgba(255,255,255,0.36), transparent);
-      transition: transform 0.72s var(--ease-main);
-      z-index: 0;
+      left: 275px;
+      top: 182px;
+      background: #c39267;
+      color: #fff;
+      padding: 15px 20px;
+      font-size: 18px;
+      font-weight: 700;
+      z-index: 8;
+      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.08);
     }
 
-    .main-cta span {
-      position: relative;
-      z-index: 1;
+    .discount span {
+      font-weight: 300;
+      margin-left: 4px;
     }
 
-    .main-cta:hover {
-      transform: translateY(-6px) scale(1.03);
-      box-shadow:
-        0 18px 34px rgba(124, 86, 48, 0.34),
-        inset 0 1px 0 rgba(255,255,255,0.24);
-      filter: brightness(1.04);
-    }
-
-    .main-cta:hover::before {
-      transform: skewX(-24deg) translateX(620%);
-    }
-
-    .main-cta:active {
-      transform: translateY(-2px) scale(0.985);
-    }
-
-    .hero-visual {
-      min-height: 100%;
-      display: flex;
-      align-items: stretch;
-      justify-content: flex-end;
-      overflow: hidden;
-    }
-
-    .hero-image-frame {
-      position: relative;
-      width: 100%;
-      height: 100%;
-      min-height: 476px;
-      overflow: hidden;
-    }
-
-    .hero-image-frame::before {
-      content: "";
+    /* =========================================================
+       12. CONTENEDOR DE IMAGEN PRINCIPAL
+       - Aquí irá la imagen real después.
+    ========================================================= */
+    .photo {
       position: absolute;
-      inset: 0;
-      background:
-        linear-gradient(90deg, rgba(65, 63, 70, 0.62) 0%, rgba(65, 63, 70, 0.08) 24%, rgba(27, 29, 35, 0.08) 62%, rgba(27, 29, 35, 0.18) 100%),
-        radial-gradient(circle at 18% 52%, rgba(255,255,255,0.12), transparent 24%);
-      z-index: 2;
-      pointer-events: none;
+      right: 40px;
+      top: 48px;
+      width: 42%;
+      height: 57%;
+      border: 1px solid rgba(0, 0, 0, 0.08);
+      overflow: hidden;
+      z-index: 6;
+      box-shadow: 0 14px 24px rgba(0, 0, 0, 0.08);
+      background: #f2f2f2;
     }
 
-    .hero-image {
-      position: absolute;
-      inset: 0;
+    .photo img {
       width: 100%;
       height: 100%;
       object-fit: cover;
-      transform: scale(1.08) translateX(18px);
-      animation: heroImageSettle 1.8s var(--ease-main) 1.04s forwards;
-      will-change: transform;
+      display: block;
     }
 
-    .hero-placeholder {
-      position: absolute;
-      inset: 0;
-      display: flex;
-      align-items: flex-end;
-      justify-content: flex-end;
-      padding: 34px;
-      background:
-        radial-gradient(circle at 78% 30%, rgba(255, 227, 182, 0.8), rgba(255, 227, 182, 0.02) 12%),
-        linear-gradient(180deg, rgba(33, 35, 41, 0.1), rgba(33, 35, 41, 0.28));
-      color: rgba(255,255,255,0.85);
-      font-size: 0.94rem;
-      letter-spacing: 0.02em;
-      z-index: 1;
-    }
-
-    /* =========================================================
-       8) BLOQUES INTERMEDIOS CLICKEABLES
-       ========================================================= */
-    .feature-strip {
-      display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: 24px;
-      padding: 34px 58px 10px;
-    }
-
-    .feature-card {
-      position: relative;
-      display: flex;
-      align-items: center;
-      gap: 22px;
-      padding: 18px 22px;
-      border-radius: 18px;
-      background: rgba(255,255,255,0.18);
-      border: 1px solid rgba(185, 170, 176, 0.24);
-      transition:
-        transform 0.34s var(--ease-main),
-        box-shadow 0.34s var(--ease-main),
-        border-color 0.34s var(--ease-main),
-        background 0.34s var(--ease-main);
-      opacity: 0;
-      transform: translateY(26px);
-      animation: featureIn 0.82s var(--ease-main) forwards;
-      box-shadow: 0 10px 18px rgba(35, 35, 39, 0.04);
-    }
-
-    .feature-card.results { animation-delay: 1.64s; }
-    .feature-card.exam { animation-delay: 1.78s; }
-
-    .feature-card::before {
-      content: "";
-      position: absolute;
-      inset: 0;
-      border-radius: inherit;
-      background: linear-gradient(120deg, rgba(255,255,255,0.18), transparent 46%, rgba(179, 138, 93, 0.08));
-      opacity: 0;
-      transition: opacity 0.32s var(--ease-main);
-      pointer-events: none;
-    }
-
-    .feature-card:hover {
-      transform: translateY(-10px);
-      background: rgba(255,255,255,0.26);
-      border-color: rgba(179, 138, 93, 0.38);
-      box-shadow: var(--shadow-hover);
-    }
-
-    .feature-card:hover::before {
-      opacity: 1;
-    }
-
-    .feature-icon {
-      position: relative;
-      width: 42px;
-      height: 42px;
-      flex-shrink: 0;
-      border: 2px solid rgba(179, 138, 93, 0.68);
-      border-radius: 6px;
+    .photo-placeholder {
+      width: 100%;
+      height: 100%;
       display: flex;
       align-items: center;
       justify-content: center;
-      color: var(--gold);
-      box-shadow: inset 0 1px 0 rgba(255,255,255,0.2);
-    }
-
-    .feature-icon::after {
-      content: "✓";
-      font-size: 1.5rem;
-      font-weight: 900;
-      line-height: 1;
-      transform: translateY(-1px);
-    }
-
-    .feature-copy {
-      min-width: 0;
-    }
-
-    .feature-title {
-      font-size: clamp(1.2rem, 1.35vw, 1.72rem);
-      font-weight: 900;
-      letter-spacing: 0.01em;
-      margin-bottom: 6px;
-      color: #2d2c33;
-    }
-
-    .feature-text {
-      font-size: clamp(0.92rem, 1vw, 1.16rem);
-      color: #59565f;
-      line-height: 1.5;
+      background:
+        linear-gradient(135deg, rgba(255, 255, 255, 0.9), rgba(236, 236, 236, 0.9)),
+        linear-gradient(90deg, #ececeb 0%, #fafafa 45%, #e7e7e5 100%);
+      color: #8f8f8f;
+      font-size: 12px;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
     }
 
     /* =========================================================
-       9) MÉTRICAS INFERIORES
-       ========================================================= */
-    .stats-strip {
-      display: grid;
-      grid-template-columns: repeat(3, minmax(0, 1fr));
-      gap: 0;
-      padding: 16px 58px 48px;
-      position: relative;
+       13. ESTADÍSTICAS INFERIORES
+       - Corregidas para quedar centradas visualmente.
+    ========================================================= */
+    .stats {
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
+      bottom: 28px;
+      width: 520px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 22px;
+      z-index: 7;
+      color: #b98358;
     }
 
-    .stat-block {
-      text-align: center;
-      padding: 26px 22px 16px;
-      position: relative;
-      opacity: 0;
-      transform: translateY(24px);
-      animation: fadeRise 0.8s var(--ease-main) forwards;
+    .stat {
+      display: flex;
+      align-items: flex-end;
+      gap: 8px;
     }
 
-    .stat-block:nth-child(1) { animation-delay: 1.86s; }
-    .stat-block:nth-child(2) { animation-delay: 1.98s; }
-    .stat-block:nth-child(3) { animation-delay: 2.10s; }
+    .stat strong {
+      font-size: 20px;
+      line-height: 1;
+    }
 
-    .stat-block + .stat-block::before {
-      content: "";
+    .stat span {
+      font-size: 8px;
+      line-height: 1.25;
+      color: #5d5d5d;
+      text-transform: uppercase;
+    }
+
+    .sep {
+      width: 1px;
+      height: 28px;
+      background: #c8b8ab;
+    }
+
+    /* =========================================================
+       14. DETALLES DECORATIVOS INFERIORES Y LATERALES
+    ========================================================= */
+    .line-accent {
+      position: absolute;
+      left: 40px;
+      bottom: 105px;
+      width: 192px;
+      height: 11px;
+      background: #c39267;
+      z-index: 3;
+    }
+
+    .left-block {
       position: absolute;
       left: 0;
-      top: 28px;
-      bottom: 18px;
+      top: 100px;
+      width: 12px;
+      height: 72px;
+      background: #c39267;
+    }
+
+    .outline-box {
+      position: absolute;
+      left: -22px;
+      top: 172px;
+      width: 52px;
+      height: 82px;
+      border: 1px solid #b5b5b5;
+      background: transparent;
+    }
+
+    .mid-outline {
+      position: absolute;
+      left: 326px;
+      top: 194px;
+      width: 245px;
+      height: 48px;
+      border: 1px solid #c8c8c8;
+      z-index: 2;
+    }
+
+    .dots1,
+    .dots2,
+    .dots3,
+    .dots4 {
+      position: absolute;
+      display: grid;
+      grid-template-columns: repeat(3, 4px);
+      gap: 4px;
+      z-index: 3;
+    }
+
+    .dots1 span,
+    .dots2 span,
+    .dots3 span,
+    .dots4 span {
+      width: 2px;
+      height: 2px;
+      background: #9f9f9f;
+      display: block;
+    }
+
+    .dots1 {
+      left: 324px;
+      top: 108px;
+    }
+
+    .dots2 {
+      left: 238px;
+      top: 132px;
+    }
+
+    .dots3 {
+      left: 530px;
+      top: 90px;
+    }
+
+    .dots4 {
+      right: 20px;
+      top: 104px;
+      grid-template-columns: repeat(2, 4px);
+      gap: 6px 6px;
+    }
+
+    .dots4 span {
+      background: #c39267;
+    }
+
+    .mini-lines {
+      position: absolute;
+      left: 495px;
+      top: 84px;
+      display: flex;
+      gap: 4px;
+      z-index: 4;
+    }
+
+    .mini-lines span {
       width: 1px;
-      background: linear-gradient(180deg, transparent, rgba(179,138,93,0.38), transparent);
+      height: 10px;
+      background: #adadad;
+      display: block;
     }
 
-    .stat-value {
-      font-size: clamp(2.45rem, 3.4vw, 4rem);
-      line-height: 0.95;
-      font-weight: 800;
-      color: var(--gold);
-      letter-spacing: -0.02em;
-      margin-bottom: 8px;
+    .bottom-lines {
+      position: absolute;
+      left: 72px;
+      bottom: 12px;
+      display: flex;
+      gap: 5px;
+      z-index: 4;
     }
 
-    .stat-title {
-      font-size: clamp(1.3rem, 1.7vw, 2rem);
-      font-weight: 500;
-      color: #3b3942;
-      line-height: 1.16;
-      margin-bottom: 10px;
+    .bottom-lines span {
+      width: 1px;
+      height: 10px;
+      background: #b8b8b8;
+      display: block;
     }
 
-    .stat-title strong {
-      color: var(--gold-deep);
-      font-weight: 700;
+    .big-circle {
+      position: absolute;
+      right: -34px;
+      bottom: -50px;
+      width: 160px;
+      height: 160px;
+      border: 1px solid #9b7154;
+      border-radius: 50%;
+      z-index: 2;
     }
 
-    .stat-subtext {
-      font-size: clamp(0.98rem, 1.05vw, 1.3rem);
-      color: #4f4c54;
-      line-height: 1.4;
-    }
-
-    /* =========================================================
-       10) UTILIDADES DE ANIMACIÓN INICIALES
-       ========================================================= */
-    .js-reveal {
-      opacity: 0;
-      transform: translateY(28px);
-      transition:
-        opacity 0.9s var(--ease-main),
-        transform 0.9s var(--ease-main);
-      will-change: opacity, transform;
-    }
-
-    .js-reveal.visible {
-      opacity: 1;
-      transform: translateY(0);
-    }
-
-    .delay-1 { transition-delay: 0.08s; }
-    .delay-2 { transition-delay: 0.16s; }
-    .delay-3 { transition-delay: 0.24s; }
-
-    /* =========================================================
-       11) RESPONSIVE - TABLET
-       ========================================================= */
-    @media (max-width: 1180px) {
-      .site-wrap {
-        width: min(calc(100% - 28px), var(--max-width));
-      }
-
-      .topbar {
-        grid-template-columns: 1fr;
-        padding: 28px 26px 22px;
-      }
-
-      .kids-button {
-        justify-self: start;
-        min-width: 300px;
-      }
-
-      .hero {
-        padding: 0 18px 0;
-      }
-
-      .hero-card {
-        grid-template-columns: 1fr;
-      }
-
-      .hero-copy {
-        padding: 44px 30px 32px 34px;
-      }
-
-      .hero-visual,
-      .hero-image-frame {
-        min-height: 360px;
-      }
-
-      .feature-strip,
-      .stats-strip {
-        padding-left: 28px;
-        padding-right: 28px;
-      }
+    .small-circle {
+      position: absolute;
+      left: -18px;
+      bottom: 24px;
+      width: 28px;
+      height: 28px;
+      border: 1px solid #9e9e9e;
+      border-radius: 50%;
+      z-index: 2;
     }
 
     /* =========================================================
-       12) RESPONSIVE - MÓVIL
-       ========================================================= */
-    @media (max-width: 760px) {
-      .site-wrap {
-        width: min(calc(100% - 16px), var(--max-width));
-        margin: 10px auto 18px;
-        border-radius: 22px;
+       15. RESPONSIVE TABLET
+    ========================================================= */
+    @media (max-width: 900px) {
+      .frame {
+        aspect-ratio: auto;
+        min-height: 760px;
       }
 
-      .topbar {
-        padding: 22px 16px 18px;
-        gap: 16px;
+      .dark-panel {
+        width: 32%;
       }
 
-      .brand-row {
-        gap: 12px;
-        align-items: flex-start;
+      .nav {
+        padding-right: 150px;
+        gap: 18px;
       }
 
-      .brand-mark {
-        transform: scale(0.88);
-        transform-origin: top left;
+      .photo {
+        width: 48%;
+        height: 42%;
+        top: 86px;
       }
 
-      .brand-title {
-        min-height: 34px;
-      }
-
-      .brand-subtitle {
-        font-size: 0.72rem;
-        line-height: 1.4;
-        max-width: 100%;
-      }
-
-      .kids-button {
-        min-width: 100%;
-        min-height: 98px;
-        border-radius: 18px;
-        padding: 12px 14px;
-      }
-
-      .kids-mascot-wrap {
-        width: 76px;
-        height: 62px;
-      }
-
-      .kids-outline {
-        width: 54px;
-        height: 44px;
-        left: 9px;
-        top: 10px;
-      }
-
-      .kids-ear-left,
-      .kids-ear-right {
-        width: 16px;
-        height: 16px;
-      }
-
-      .kids-eye,
-      .kids-eye.right {
-        width: 5px;
-        height: 5px;
-        top: 26px;
-      }
-
-      .kids-eye { left: 20px; }
-      .kids-eye.right { left: 39px; }
-
-      .kids-mouth {
-        left: 23px;
-        top: 36px;
-        width: 18px;
-        height: 10px;
-      }
-
-      .kids-text-top {
-        font-size: 1.38rem;
-      }
-
-      .kids-text-bottom {
-        font-size: 2.25rem;
-      }
-
-      .hero {
-        padding: 0 10px 0;
-      }
-
-      .hero-card {
-        min-height: auto;
-        border-radius: 18px;
-      }
-
-      .hero-copy {
-        padding: 30px 18px 24px 20px;
-      }
-
-      .hero-title {
-        gap: 3px;
-        margin-bottom: 18px;
-      }
-
-      .hero-line {
-        font-size: clamp(1.7rem, 9vw, 2.55rem);
-      }
-
-      .hero-subheadline {
-        margin-bottom: 18px;
-        font-size: 1rem;
-      }
-
-      .hero-description {
-        font-size: 0.95rem;
-        line-height: 1.68;
-      }
-
-      .cta-row {
-        margin-top: 24px;
-      }
-
-      .main-cta {
-        min-width: 100%;
-        min-height: 60px;
-        font-size: 1.02rem;
-      }
-
-      .hero-visual,
-      .hero-image-frame {
-        min-height: 280px;
-      }
-
-      .feature-strip {
-        grid-template-columns: 1fr;
+      .stats {
+        width: calc(100% - 80px);
         gap: 14px;
-        padding: 22px 16px 10px;
+        flex-wrap: wrap;
+      }
+    }
+
+    /* =========================================================
+       16. RESPONSIVE MÓVIL
+    ========================================================= */
+    @media (max-width: 700px) {
+      body {
+        padding: 12px;
       }
 
-      .feature-card {
-        padding: 16px;
-        border-radius: 16px;
+      .frame {
+        width: 100%;
+        min-height: 1020px;
       }
 
-      .feature-title {
-        font-size: 1.12rem;
+      .topbar {
+        height: auto;
+        padding: 16px 18px 70px;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 12px;
       }
 
-      .feature-text {
-        font-size: 0.92rem;
+      .nav {
+        flex-wrap: wrap;
+        gap: 12px 18px;
+        padding-right: 0;
+        margin-left: 0;
       }
 
-      .stats-strip {
-        grid-template-columns: 1fr;
-        padding: 8px 16px 26px;
+      .kids-button {
+        top: auto;
+        bottom: 16px;
+        right: 18px;
       }
 
-      .stat-block {
-        padding: 18px 8px;
-      }
-
-      .stat-block + .stat-block::before {
-        top: 0;
-        left: 12%;
-        right: 12%;
-        width: auto;
-        height: 1px;
-        bottom: auto;
-      }
-
-      .stat-value {
-        font-size: 2.5rem;
-      }
-
-      .stat-title {
-        font-size: 1.45rem;
-      }
-
-      .stat-subtext {
-        font-size: 0.98rem;
-      }
-
-      .decor-grid.top {
-        top: 390px;
-        left: auto;
-        right: 12px;
-        transform: scale(0.75);
-      }
-
-      .decor-grid.right,
-      .decor-corner.one,
-      .decor-ring.right,
-      .decor-lines {
+      .left-divider,
+      .top-circle,
+      .dark-panel,
+      .big-circle,
+      .outline-box,
+      .mid-outline,
+      .small-circle,
+      .mini-lines,
+      .dots1,
+      .dots2,
+      .dots3,
+      .dots4 {
         display: none;
       }
-    }
 
-    /* =========================================================
-       13) RESPETO A PREFERENCIAS DE MOVIMIENTO
-       ========================================================= */
-    @media (prefers-reduced-motion: reduce) {
-      *, *::before, *::after {
-        animation-duration: 0.01ms !important;
-        animation-iteration-count: 1 !important;
-        transition-duration: 0.01ms !important;
-        scroll-behavior: auto !important;
+      .hero {
+        inset: 126px 0 0 0;
       }
-    }
 
-    /* =========================================================
-       14) KEYFRAMES
-       ========================================================= */
-    @keyframes markPieceIn {
-      0% {
-        opacity: 0;
-        transform: translateY(-24px) scaleY(0.66) rotate(var(--rot, 0deg));
+      .title {
+        left: 22px;
+        top: 16px;
       }
-      62% {
-        opacity: 1;
-      }
-      100% {
-        opacity: 1;
-        transform: translateY(0) scaleY(1) rotate(0deg);
-      }
-    }
 
-    @keyframes titlePuzzleIn {
-      0% {
-        opacity: 0;
-        transform: translateY(24px) scale(0.72) rotateX(70deg);
+      .desc {
+        left: 24px;
+        top: 126px;
+        width: calc(100% - 48px);
       }
-      60% {
-        opacity: 1;
-      }
-      82% {
-        transform: translateY(-4px) scale(1.03) rotateX(0deg);
-      }
-      100% {
-        opacity: 1;
-        transform: translateY(0) scale(1) rotateX(0deg);
-      }
-    }
 
-    @keyframes fadeRise {
-      0% {
-        opacity: 0;
-        transform: translateY(18px);
+      .button-stack {
+        left: 24px;
+        top: 198px;
       }
-      100% {
-        opacity: 1;
-        transform: translateY(0);
-      }
-    }
 
-    @keyframes revealSide {
-      0% {
-        opacity: 0;
-        transform: translateX(-34px);
+      .discount {
+        left: 24px;
+        top: 355px;
       }
-      70% {
-        opacity: 1;
-      }
-      100% {
-        opacity: 1;
-        transform: translateX(0);
-      }
-    }
 
-    @keyframes kidsButtonEnter {
-      0% {
-        opacity: 0;
-        transform: translateY(-18px) scale(0.92);
+      .photo {
+        position: absolute;
+        left: 24px;
+        right: 24px;
+        top: 430px;
+        width: auto;
+        height: 250px;
       }
-      70% {
-        opacity: 1;
-        transform: translateY(2px) scale(1.02);
-      }
-      100% {
-        opacity: 1;
-        transform: translateY(0) scale(1);
-      }
-    }
 
-    @keyframes mascotBiteCycle {
-      0%, 76%, 100% {
-        transform: translateX(0) scale(1) rotate(0deg);
+      .line-accent {
+        left: 24px;
+        bottom: 185px;
+        width: 180px;
       }
-      80% {
-        transform: translateX(4px) scale(1.02) rotate(3deg);
-      }
-      84% {
-        transform: translateX(10px) scale(1.05) rotate(6deg);
-      }
-      88% {
-        transform: translateX(2px) scale(0.98) rotate(0deg);
-      }
-      92% {
-        transform: translateX(7px) scale(1.02) rotate(4deg);
-      }
-      100% {
-        transform: translateX(0) scale(1) rotate(0deg);
-      }
-    }
 
-    @keyframes mouthBite {
-      0%, 76%, 100% {
-        transform: scaleY(1) scaleX(1);
-      }
-      82% {
-        transform: scaleY(0.36) scaleX(1.12);
-      }
-      88% {
-        transform: scaleY(1.14) scaleX(0.95);
-      }
-      92% {
-        transform: scaleY(0.56) scaleX(1.06);
-      }
-    }
-
-    @keyframes biteFlash {
-      0%, 78%, 100% {
-        opacity: 0;
-        transform: scale(0.7);
-      }
-      84% {
-        opacity: 0.76;
-        transform: scale(1);
-      }
-      92% {
-        opacity: 0.18;
-        transform: scale(1.08);
-      }
-    }
-
-    @keyframes twinkleStar {
-      0%, 100% {
-        opacity: 0.42;
-        transform: scale(0.78) rotate(0deg);
-      }
-      50% {
-        opacity: 1;
-        transform: scale(1.1) rotate(14deg);
-      }
-    }
-
-    @keyframes heroImageSettle {
-      0% {
-        transform: scale(1.08) translateX(18px);
-      }
-      100% {
-        transform: scale(1.02) translateX(0);
-      }
-    }
-
-    @keyframes featureIn {
-      0% {
-        opacity: 0;
-        transform: translateY(26px);
-      }
-      76% {
-        opacity: 1;
-        transform: translateY(-4px);
-      }
-      100% {
-        opacity: 1;
-        transform: translateY(0);
+      .stats {
+        width: calc(100% - 48px);
+        bottom: 28px;
       }
     }
   </style>
 </head>
 <body>
-  <div class="page-shell">
-    <!-- DECORATIVOS GENERALES -->
-    <span class="decor-grid top" aria-hidden="true"></span>
-    <span class="decor-grid right" aria-hidden="true"></span>
-    <span class="decor-corner one" aria-hidden="true"></span>
-    <span class="decor-ring left" aria-hidden="true"></span>
-    <span class="decor-ring right" aria-hidden="true"></span>
-    <span class="decor-lines" aria-hidden="true"></span>
+  <div class="frame">
+    <!-- =======================================================
+         BARRA SUPERIOR
+    ======================================================== -->
+    <div class="topbar">
+      <div class="brand">
+        <span class="brand-icon"></span>
+        <span>LOGO</span>
+      </div>
 
-    <main class="site-wrap">
-      <!-- ======================================================
-           BARRA SUPERIOR
-           ====================================================== -->
-      <header class="topbar">
-        <div class="brand-row">
-          <div class="brand-mark" aria-hidden="true">
-            <span class="mark-piece"></span>
-            <span class="mark-piece"></span>
-            <span class="mark-piece"></span>
-            <span class="mark-piece"></span>
-          </div>
+      <nav class="nav">
+        <a href="#">Home</a>
+        <a href="#">Services</a>
+        <a href="#">Projects</a>
+        <a href="#">Gallery</a>
+        <a href="#">FAQ</a>
+      </nav>
 
-          <div class="brand-copy">
-            <h1 class="brand-title" aria-label="Pirstton">
-              <span class="letter">P</span>
-              <span class="letter">I</span>
-              <span class="letter">R</span>
-              <span class="letter">S</span>
-              <span class="letter">T</span>
-              <span class="letter">T</span>
-              <span class="letter">O</span>
-              <span class="letter">N</span>
-            </h1>
+      <a class="kids-button" href="pirstton-kids.html">Pirsttons Kids</a>
+    </div>
 
-            <p class="brand-subtitle">
-              Proyecto de Instrucción ad Refurze para la Superancion de Tareas y las Técnicas de Optimización del Nivel
-            </p>
-          </div>
+    <!-- =======================================================
+         ELEMENTOS DECORATIVOS FIJOS
+    ======================================================== -->
+    <div class="left-divider"></div>
+    <div class="top-circle"></div>
+    <div class="dark-panel"></div>
+
+    <!-- =======================================================
+         HERO PRINCIPAL
+    ======================================================== -->
+    <div class="hero">
+      <div class="left-block"></div>
+      <div class="outline-box"></div>
+      <div class="small-circle"></div>
+      <div class="big-circle"></div>
+      <div class="mid-outline"></div>
+      <div class="line-accent"></div>
+
+      <div class="mini-lines">
+        <span></span><span></span><span></span><span></span>
+      </div>
+
+      <div class="bottom-lines">
+        <span></span><span></span><span></span><span></span><span></span><span></span>
+      </div>
+
+      <div class="dots1">
+        <span></span><span></span><span></span>
+        <span></span><span></span><span></span>
+        <span></span><span></span><span></span>
+      </div>
+
+      <div class="dots2">
+        <span></span><span></span><span></span>
+        <span></span><span></span><span></span>
+        <span></span><span></span><span></span>
+      </div>
+
+      <div class="dots3">
+        <span></span><span></span><span></span>
+        <span></span><span></span><span></span>
+        <span></span><span></span><span></span>
+      </div>
+
+      <div class="dots4">
+        <span></span><span></span>
+        <span></span><span></span>
+        <span></span><span></span>
+        <span></span><span></span>
+      </div>
+
+      <!-- =====================================================
+           TÍTULO PRINCIPAL
+      ====================================================== -->
+      <div class="title">
+        <span class="line1">WE DESIGN</span>
+        <span class="line2">YOUR DREAMS</span>
+      </div>
+
+      <!-- =====================================================
+           DESCRIPCIÓN
+      ====================================================== -->
+      <p class="desc">
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore.
+      </p>
+
+      <!-- =====================================================
+           BOTONES IZQUIERDOS
+      ====================================================== -->
+      <div class="button-stack">
+        <a class="hero-button primary" href="#">READ MORE</a>
+        <a class="hero-button secondary" href="resultados.html">RESULTADOS ACADÉMICOS</a>
+        <a class="hero-button secondary" href="Examen Simulacro.html">EXAMEN SIMULACRO</a>
+      </div>
+
+      <!-- =====================================================
+           TARJETA CENTRAL
+      ====================================================== -->
+      <div class="discount">50%<span>OFF</span></div>
+
+      <!-- =====================================================
+           CUADRO BLANCO DE IMAGEN PRINCIPAL
+           - Reemplaza src por tu imagen real cuando quieras.
+      ====================================================== -->
+      <div class="photo">
+        <!-- Ejemplo de uso:
+        <img src="tu-imagen.jpg" alt="Imagen principal" />
+        -->
+        <div class="photo-placeholder">Aquí irá tu imagen</div>
+      </div>
+
+      <!-- =====================================================
+           BLOQUE INFERIOR CENTRADO
+      ====================================================== -->
+      <div class="stats">
+        <div class="stat">
+          <strong>10+</strong>
+          <span>Years of<br>Experience</span>
         </div>
-
-        <a class="kids-button" href="pirstton-kids.html" aria-label="Ir a Pirstton Kids">
-          <span class="kids-stars" aria-hidden="true">
-            <span class="star one"></span>
-            <span class="star two"></span>
-            <span class="star three"></span>
-          </span>
-
-          <span class="kids-inner">
-            <span class="kids-mascot-wrap" aria-hidden="true">
-              <span class="kids-mascot">
-                <span class="kids-ear-left"></span>
-                <span class="kids-ear-right"></span>
-                <span class="kids-outline"></span>
-                <span class="kids-eye"></span>
-                <span class="kids-eye right"></span>
-                <span class="kids-mouth"></span>
-              </span>
-              <span class="kids-bite-mark"></span>
-            </span>
-
-            <span class="kids-copy">
-              <span class="kids-text-top">PIRSTTON</span>
-              <span class="kids-text-bottom">KIDS</span>
-            </span>
-          </span>
-        </a>
-      </header>
-
-      <!-- ======================================================
-           HERO PRINCIPAL
-           ====================================================== -->
-      <section class="hero">
-        <div class="hero-card">
-          <div class="hero-copy">
-            <div class="hero-title">
-              <span class="hero-line">APOYO Y REFUERZO</span>
-              <span class="hero-line accent">ACADÉMICO</span>
-            </div>
-
-            <p class="hero-subheadline">
-              Optimizamos tu rendimiento y <span class="accent-text">superamos tus metas</span>
-            </p>
-
-            <p class="hero-description">
-              Somos un grupo enfocado en clases particulares y preuniversitarias, orientado a la mejora de desempeño estudiantil mediante acompañamiento personalizado y enfoque en resultados medibles.
-            </p>
-
-            <div class="cta-row">
-              <a class="main-cta" href="#" data-link-pending="true">
-                <span>CONOCE MÁS</span>
-              </a>
-            </div>
-          </div>
-
-          <div class="hero-visual">
-            <div class="hero-image-frame">
-              <!-- REEMPLAZA src CUANDO TENGAS TU IMAGEN FINAL -->
-              <img
-                class="hero-image"
-                src="https://images.unsplash.com/photo-1497633762265-9d179a990aa6?auto=format&fit=crop&w=1400&q=80"
-                alt="Espacio de trabajo académico"
-                loading="eager"
-                decoding="async"
-              />
-              <div class="hero-placeholder" aria-hidden="true"></div>
-            </div>
-          </div>
+        <div class="sep"></div>
+        <div class="stat">
+          <strong>85+</strong>
+          <span>Successful<br>Projects</span>
         </div>
-      </section>
-
-      <!-- ======================================================
-           BLOQUES INTERMEDIOS CLICKEABLES
-           ====================================================== -->
-      <section class="feature-strip">
-        <a class="feature-card results" href="resultados.html">
-          <span class="feature-icon" aria-hidden="true"></span>
-          <span class="feature-copy">
-            <span class="feature-title">RESULTADOS ACADÉMICOS</span>
-            <span class="feature-text">Mejora continua en rendimiento</span>
-          </span>
-        </a>
-
-        <a class="feature-card exam" href="Examen Simulacro.html">
-          <span class="feature-icon" aria-hidden="true"></span>
-          <span class="feature-copy">
-            <span class="feature-title">EXAMEN SIMULACRO</span>
-            <span class="feature-text">Pruebas y ejercicios prácticas</span>
-          </span>
-        </a>
-      </section>
-
-      <!-- ======================================================
-           MÉTRICAS INFERIORES
-           ====================================================== -->
-      <section class="stats-strip">
-        <div class="stat-block">
-          <div class="stat-value">+300</div>
-          <div class="stat-title">Estudiantes atendidos</div>
+        <div class="sep"></div>
+        <div class="stat">
+          <strong>12</strong>
+          <span>Team<br>Members</span>
         </div>
-
-        <div class="stat-block">
-          <div class="stat-title"><strong>Progreso</strong> Medible</div>
-          <div class="stat-subtext">Analisis académico</div>
-        </div>
-
-        <div class="stat-block">
-          <div class="stat-title"><strong>Clases</strong> Personalizadas</div>
-          <div class="stat-subtext">Según cada estudiante</div>
-        </div>
-      </section>
-    </main>
+      </div>
+    </div>
   </div>
-
-  <script>
-    /* =========================================================
-       JAVASCRIPT - REVELADO SUAVE AL HACER SCROLL
-       ========================================================= */
-    (function () {
-      const revealItems = document.querySelectorAll('.feature-card, .stat-block');
-
-      const observer = new IntersectionObserver((entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            entry.target.classList.add('visible');
-            observer.unobserve(entry.target);
-          }
-        });
-      }, {
-        threshold: 0.2,
-        rootMargin: '0px 0px -40px 0px'
-      });
-
-      revealItems.forEach((item) => {
-        observer.observe(item);
-      });
-    })();
-
-    /* =========================================================
-       JAVASCRIPT - ENLACE PENDIENTE DEL BOTÓN CONOCE MÁS
-       ========================================================= */
-    (function () {
-      const pendingButton = document.querySelector('[data-link-pending="true"]');
-      if (!pendingButton) return;
-
-      pendingButton.addEventListener('click', function (event) {
-        event.preventDefault();
-      });
-    })();
-  </script>
 </body>
 </html>
