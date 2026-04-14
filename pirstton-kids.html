@@ -208,6 +208,70 @@
     }
 
     /* =========================================================
+       9.1) TÍTULO KIDS ANIMADO LETRA POR LETRA
+       Importante: esto va fuera de responsive para que funcione
+       tanto en laptop como en celular
+    ========================================================= */
+    .split-title {
+      display: inline-flex;
+      flex-wrap: nowrap;
+      align-items: center;
+      white-space: nowrap;
+      isolation: isolate;
+    }
+
+    .split-title span {
+      display: inline-block;
+      opacity: 0;
+      transform: translate3d(0, 36px, 0) scale(0.72) rotate(0deg);
+      transform-origin: center bottom;
+      will-change: transform, opacity;
+      backface-visibility: hidden;
+      animation:
+        letterKidsIn 1.05s cubic-bezier(0.22, 1, 0.36, 1) both,
+        letterKidsFloat 2.9s ease-in-out infinite;
+      animation-delay:
+        var(--enter-delay, 0s),
+        calc(2.05s + var(--float-delay, 0s));
+    }
+
+    .split-title .space {
+      width: 0.3em;
+      opacity: 1;
+      transform: none;
+      animation: none;
+    }
+
+    .split-title span:not(.space):hover {
+      animation-play-state: paused, paused;
+      transform: translateY(-8px) scale(1.08) rotate(-4deg);
+      transition: transform 0.28s ease;
+    }
+
+    .split-title span:nth-child(odd):not(.space) {
+      --start-x: -120px;
+      --start-rotate: -70deg;
+    }
+
+    .split-title span:nth-child(even):not(.space) {
+      --start-x: 120px;
+      --start-rotate: 70deg;
+    }
+
+    .split-title span:nth-child(1)  { color: #ff8a65; --enter-delay: 0.18s; --float-delay: 0.00s; }
+    .split-title span:nth-child(2)  { color: #ffd166; --enter-delay: 0.28s; --float-delay: 0.18s; }
+    .split-title span:nth-child(3)  { color: #5ec8ff; --enter-delay: 0.38s; --float-delay: 0.36s; }
+    .split-title span:nth-child(4)  { color: #7ed957; --enter-delay: 0.48s; --float-delay: 0.54s; }
+    .split-title span:nth-child(5)  { color: #ff9f43; --enter-delay: 0.58s; --float-delay: 0.72s; }
+    .split-title span:nth-child(6)  { color: #c084fc; --enter-delay: 0.68s; --float-delay: 0.90s; }
+    .split-title span:nth-child(7)  { color: #4dd4ac; --enter-delay: 0.78s; --float-delay: 1.08s; }
+    .split-title span:nth-child(8)  { color: #ff6b9a; --enter-delay: 0.88s; --float-delay: 1.26s; }
+    .split-title span:nth-child(10) { color: #6ec5ff; --enter-delay: 1.03s; --float-delay: 0.12s; }
+    .split-title span:nth-child(11) { color: #ffd166; --enter-delay: 1.13s; --float-delay: 0.30s; }
+    .split-title span:nth-child(12) { color: #ff8a65; --enter-delay: 1.23s; --float-delay: 0.48s; }
+    .split-title span:nth-child(13) { color: #7ed957; --enter-delay: 1.33s; --float-delay: 0.66s; }
+
+    /* =========================================================
        10) PÁRRAFO DESCRIPTIVO
     ========================================================= */
     .hero-text {
@@ -621,6 +685,48 @@
       }
     }
 
+    @keyframes letterKidsIn {
+      0% {
+        opacity: 0;
+        transform: translate3d(var(--start-x), 42px, 0) rotate(var(--start-rotate)) scale(0.7);
+      }
+      55% {
+        opacity: 1;
+        transform: translate3d(0, -8px, 0) rotate(10deg) scale(1.1);
+      }
+      72% {
+        opacity: 1;
+        transform: translate3d(0, 4px, 0) rotate(-7deg) scale(0.96);
+      }
+      86% {
+        opacity: 1;
+        transform: translate3d(0, -2px, 0) rotate(3deg) scale(1.03);
+      }
+      100% {
+        opacity: 1;
+        transform: translate3d(0, 0, 0) rotate(0deg) scale(1);
+      }
+    }
+
+    @keyframes letterKidsFloat {
+      0%, 100% {
+        opacity: 1;
+        transform: translate3d(0, 0, 0) rotate(0deg) scale(1);
+      }
+      25% {
+        opacity: 1;
+        transform: translate3d(0, -5px, 0) rotate(-2.5deg) scale(1.03);
+      }
+      50% {
+        opacity: 1;
+        transform: translate3d(0, 2px, 0) rotate(2deg) scale(0.99);
+      }
+      75% {
+        opacity: 1;
+        transform: translate3d(0, -3px, 0) rotate(-1deg) scale(1.02);
+      }
+    }
+
     @keyframes tagEnter {
       0% {
         opacity: 0;
@@ -783,89 +889,17 @@
       .cta-box {
         padding: 28px 22px;
       }
-  
-      /* =========================================================
-   TITULO PIRSTTON KIDS LETRA POR LETRA
-========================================================= */
-.split-title {
-  display: inline-flex;
-  flex-wrap: nowrap;
-  align-items: center;
-  white-space: nowrap
-}
 
-.split-title span {
-  display: inline-block;
-  opacity: 0;
-  transform: translateY(40px) scale(0.75) rotate(0deg);
-  animation-name: letterBounceIn;
-  animation-duration: 1.15s;
-  animation-timing-function: cubic-bezier(0.22, 1, 0.36, 1);
-  animation-fill-mode: both;
-  will-change: transform, opacity;
-}
+      .hero-title {
+        font-size: clamp(2.35rem, 11vw, 3.8rem);
+        line-height: 0.98;
+      }
 
-.split-title .space {
-  display: inline-block;
-  width: 0.32em;
-  opacity: 1;
-  transform: none;
-  animation: none;
-}
+      .split-title .space {
+        width: 0.22em;
+      }
+    }
 
-.split-title span:nth-child(odd):not(.space) {
-  --startX: -120px;
-  --startRotate: -85deg;
-}
-
-.split-title span:nth-child(even):not(.space) {
-  --startX: 120px;
-  --startRotate: 85deg;
-}
-
-.split-title span:nth-child(1)  { animation-delay: 0.20s; }
-.split-title span:nth-child(2)  { animation-delay: 0.30s; }
-.split-title span:nth-child(3)  { animation-delay: 0.40s; }
-.split-title span:nth-child(4)  { animation-delay: 0.50s; }
-.split-title span:nth-child(5)  { animation-delay: 0.60s; }
-.split-title span:nth-child(6)  { animation-delay: 0.70s; }
-.split-title span:nth-child(7)  { animation-delay: 0.80s; }
-.split-title span:nth-child(8)  { animation-delay: 0.90s; }
-.split-title span:nth-child(10) { animation-delay: 1.05s; }
-.split-title span:nth-child(11) { animation-delay: 1.15s; }
-.split-title span:nth-child(12) { animation-delay: 1.25s; }
-.split-title span:nth-child(13) { animation-delay: 1.35s; }
-
-@keyframes letterBounceIn {
-  0% {
-    opacity: 0;
-    transform: translateX(var(--startX)) translateY(35px) rotate(var(--startRotate)) scale(0.72);
-  }
-  55% {
-    opacity: 1;
-    transform: translateX(0) translateY(0) rotate(10deg) scale(1.08);
-  }
-  72% {
-    transform: translateX(0) translateY(0) rotate(-6deg) scale(0.95);
-  }
-  86% {
-    transform: translateX(0) translateY(0) rotate(3deg) scale(1.03);
-  }
-  100% {
-    opacity: 1;
-    transform: translateX(0) translateY(0) rotate(0deg) scale(1);
-  }
-}
-
-@keyframes titleFloat {
-  0%, 100% {
-    transform: translateY(0);
-  }
-  50% {
-    transform: translateY(-4px);
-  }
-}
- 
   </style>
 </head>
 <body>
