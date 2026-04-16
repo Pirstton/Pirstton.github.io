@@ -1,1 +1,932 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Pirstton System | Desarrollo de Examen</title>
+  <style>
+    :root {
+      --bg: #050505;
+      --panel: rgba(24, 24, 24, 0.9);
+      --panel-soft: rgba(20, 20, 20, 0.86);
+      --panel-border: rgba(255, 255, 255, 0.06);
+      --text: #f4f4f4;
+      --muted: rgba(255, 255, 255, 0.65);
+      --muted-2: rgba(255, 255, 255, 0.5);
+      --track: rgba(255, 255, 255, 0.08);
+      --white-btn: #f5f5f5;
+      --white-btn-text: #0d0d0d;
+      --success: #ffffff;
+      --radius-xl: 26px;
+      --radius-lg: 22px;
+      --radius-md: 18px;
+      --shadow-main: 0 22px 50px rgba(0, 0, 0, 0.35);
+      --shadow-soft: 0 12px 30px rgba(0, 0, 0, 0.24);
+      --font: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
 
+    * {
+      box-sizing: border-box;
+    }
+
+    html, body {
+      margin: 0;
+      min-height: 100%;
+      font-family: var(--font);
+      color: var(--text);
+      background:
+        radial-gradient(circle at 15% 18%, rgba(255, 255, 255, 0.08), transparent 16%),
+        radial-gradient(circle at 86% 12%, rgba(255, 255, 255, 0.05), transparent 18%),
+        radial-gradient(circle at 94% 80%, rgba(255, 255, 255, 0.04), transparent 18%),
+        linear-gradient(180deg, #070707 0%, #040404 100%);
+      overflow-x: hidden;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      background-image:
+        linear-gradient(rgba(255,255,255,0.018) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,0.016) 1px, transparent 1px);
+      background-size: 4px 4px, 4px 4px;
+      opacity: 0.18;
+      mix-blend-mode: screen;
+    }
+
+    .page {
+      width: min(1220px, calc(100% - 64px));
+      margin: 0 auto;
+      padding: 72px 0 52px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .system-label {
+      margin: 0 0 28px;
+      font-size: 14px;
+      letter-spacing: 0.2em;
+      font-weight: 600;
+      color: rgba(255, 255, 255, 0.82);
+      text-transform: uppercase;
+    }
+
+    .exam-layout {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) 280px;
+      gap: 28px;
+      align-items: start;
+    }
+
+    .left-column {
+      display: grid;
+      gap: 24px;
+    }
+
+    .card {
+      background: linear-gradient(180deg, rgba(27, 27, 27, 0.94), rgba(17, 17, 17, 0.92));
+      border: 1px solid var(--panel-border);
+      box-shadow: var(--shadow-main);
+      border-radius: var(--radius-xl);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+    }
+
+    .status-card {
+      padding: 26px 26px 28px;
+    }
+
+    .status-top {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 24px;
+      align-items: center;
+      margin-bottom: 24px;
+    }
+
+    .status-block {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .status-icon {
+      width: 56px;
+      height: 56px;
+      border-radius: 18px;
+      display: grid;
+      place-items: center;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.05);
+      flex-shrink: 0;
+    }
+
+    .status-meta {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .meta-label {
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      font-weight: 700;
+      color: var(--muted-2);
+    }
+
+    .meta-value {
+      font-size: 22px;
+      font-weight: 800;
+      letter-spacing: -0.03em;
+      line-height: 1;
+    }
+
+    .progress-meta {
+      text-align: right;
+    }
+
+    .progress-bar {
+      width: 100%;
+      height: 8px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.06);
+      overflow: hidden;
+      position: relative;
+    }
+
+    .progress-fill {
+      width: 0%;
+      height: 100%;
+      border-radius: inherit;
+      background: linear-gradient(90deg, #ffffff, rgba(255, 255, 255, 0.76));
+      transition: width 0.28s ease;
+      box-shadow: 0 0 16px rgba(255, 255, 255, 0.25);
+    }
+
+    .question-card {
+      padding: 34px 42px 38px;
+      min-height: 460px;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .question-text {
+      margin: 6px 0 36px;
+      font-size: 24px;
+      line-height: 1.45;
+      font-weight: 800;
+      letter-spacing: -0.03em;
+      max-width: 90%;
+    }
+
+    .options-list {
+      display: grid;
+      gap: 16px;
+      margin-top: 4px;
+    }
+
+    .option-btn {
+      width: 100%;
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      background: linear-gradient(180deg, rgba(28, 28, 28, 0.93), rgba(22, 22, 22, 0.88));
+      color: var(--text);
+      border-radius: 18px;
+      min-height: 78px;
+      padding: 18px 22px 18px 18px;
+      display: flex;
+      align-items: center;
+      gap: 18px;
+      text-align: left;
+      cursor: pointer;
+      transition: transform 0.18s ease, border-color 0.18s ease, background 0.18s ease, box-shadow 0.18s ease;
+      box-shadow: inset 0 1px 0 rgba(255,255,255,0.02);
+    }
+
+    .option-btn:hover {
+      transform: translateY(-1px);
+      border-color: rgba(255, 255, 255, 0.12);
+      background: linear-gradient(180deg, rgba(33, 33, 33, 0.95), rgba(24, 24, 24, 0.92));
+    }
+
+    .option-btn.selected {
+      border-color: rgba(255, 255, 255, 0.28);
+      background: linear-gradient(180deg, rgba(58, 58, 58, 0.95), rgba(29, 29, 29, 0.96));
+      box-shadow: 0 0 0 1px rgba(255,255,255,0.05), 0 10px 24px rgba(0, 0, 0, 0.25);
+    }
+
+    .option-letter {
+      width: 42px;
+      height: 42px;
+      border-radius: 14px;
+      display: grid;
+      place-items: center;
+      flex-shrink: 0;
+      background: #101010;
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      font-weight: 800;
+      font-size: 26px;
+      line-height: 1;
+      color: rgba(255, 255, 255, 0.92);
+    }
+
+    .option-content {
+      font-size: 17px;
+      line-height: 1.45;
+      color: rgba(255, 255, 255, 0.76);
+      letter-spacing: -0.01em;
+    }
+
+    .exam-actions {
+      margin-top: auto;
+      display: flex;
+      justify-content: flex-end;
+      padding-top: 28px;
+    }
+
+    .primary-btn {
+      border: 0;
+      min-height: 72px;
+      min-width: 242px;
+      padding: 16px 30px;
+      border-radius: 18px;
+      background: var(--white-btn);
+      color: var(--white-btn-text);
+      font-size: 18px;
+      font-weight: 800;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 16px;
+      cursor: pointer;
+      box-shadow: 0 16px 26px rgba(0, 0, 0, 0.22);
+      transition: transform 0.18s ease, opacity 0.18s ease;
+    }
+
+    .primary-btn:hover {
+      transform: translateY(-1px);
+    }
+
+    .primary-btn:active {
+      transform: translateY(0);
+    }
+
+    .sidebar {
+      display: grid;
+      gap: 18px;
+    }
+
+    .info-card {
+      padding: 20px 20px 20px 20px;
+      border-radius: var(--radius-lg);
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      background: linear-gradient(180deg, rgba(24, 24, 24, 0.93), rgba(18, 18, 18, 0.9));
+      box-shadow: var(--shadow-soft);
+      min-height: 128px;
+    }
+
+    .info-top {
+      display: flex;
+      align-items: flex-start;
+      gap: 14px;
+    }
+
+    .info-icon {
+      width: 34px;
+      height: 34px;
+      border-radius: 12px;
+      display: grid;
+      place-items: center;
+      flex-shrink: 0;
+      color: rgba(255,255,255,0.88);
+    }
+
+    .info-title {
+      margin: 0 0 8px;
+      font-size: 15px;
+      letter-spacing: 0.08em;
+      font-weight: 800;
+      text-transform: uppercase;
+    }
+
+    .info-text {
+      margin: 0;
+      font-size: 14px;
+      line-height: 1.7;
+      color: rgba(255, 255, 255, 0.66);
+    }
+
+    .visually-hidden {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      margin: -1px;
+      overflow: hidden;
+      clip: rect(0, 0, 0, 0);
+      white-space: nowrap;
+      border: 0;
+    }
+
+    .floating-note {
+      position: fixed;
+      right: 18px;
+      bottom: 18px;
+      z-index: 50;
+      padding: 12px 16px;
+      background: rgba(20, 20, 20, 0.92);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 14px;
+      color: rgba(255,255,255,0.8);
+      font-size: 13px;
+      backdrop-filter: blur(10px);
+      display: none;
+    }
+
+    @media (max-width: 1160px) {
+      .page {
+        width: min(100% - 34px, 1080px);
+      }
+
+      .exam-layout {
+        grid-template-columns: 1fr;
+      }
+
+      .sidebar {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+      }
+    }
+
+    @media (max-width: 900px) {
+      .page {
+        width: min(100% - 24px, 980px);
+        padding-top: 28px;
+      }
+
+      .status-top {
+        grid-template-columns: 1fr;
+        gap: 18px;
+      }
+
+      .progress-meta {
+        text-align: left;
+      }
+
+      .question-card {
+        padding: 26px 18px 28px;
+        min-height: auto;
+      }
+
+      .question-text {
+        max-width: 100%;
+        font-size: 22px;
+        margin-bottom: 26px;
+      }
+
+      .sidebar {
+        grid-template-columns: 1fr;
+      }
+
+      .primary-btn {
+        width: 100%;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main class="page">
+    <p class="system-label">Pirstton System</p>
+
+    <section class="exam-layout" aria-label="Desarrollo del examen">
+      <div class="left-column">
+        <section class="card status-card" aria-label="Estado del examen">
+          <div class="status-top">
+            <div class="status-block">
+              <div class="status-icon" aria-hidden="true">
+                <svg width="25" height="25" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <circle cx="12" cy="12" r="8.5" stroke="white" stroke-opacity="0.86" stroke-width="1.7"/>
+                  <path d="M12 7.7V12.2L15.2 14.2" stroke="white" stroke-opacity="0.9" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+              </div>
+              <div class="status-meta">
+                <span class="meta-label">Tiempo restante</span>
+                <span class="meta-value" id="timeRemaining">30:00</span>
+              </div>
+            </div>
+
+            <div class="status-meta progress-meta">
+              <span class="meta-label">Progreso</span>
+              <span class="meta-value" id="progressText">1/25</span>
+            </div>
+          </div>
+
+          <div class="progress-bar" aria-hidden="true">
+            <div class="progress-fill" id="progressFill"></div>
+          </div>
+        </section>
+
+        <section class="card question-card" aria-label="Pregunta actual">
+          <h1 class="question-text" id="questionText">Cargando examen...</h1>
+
+          <div class="options-list" id="optionsList"></div>
+
+          <div class="exam-actions">
+            <button class="primary-btn" id="nextButton" type="button">
+              <span id="nextButtonText">Siguiente Pregunta</span>
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                <path d="M5 12H19" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                <path d="M13.5 6.5L19 12L13.5 17.5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </button>
+          </div>
+        </section>
+      </div>
+
+      <aside class="sidebar" aria-label="Información del examen">
+        <article class="info-card">
+          <div class="info-top">
+            <div class="info-icon" aria-hidden="true">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M12 3L18 5.4V11.1C18 15.1 15.5 18.7 12 20C8.5 18.7 6 15.1 6 11.1V5.4L12 3Z" stroke="white" stroke-opacity="0.85" stroke-width="1.7" stroke-linejoin="round"/>
+                <path d="M9.6 11.8L11.3 13.5L14.9 9.9" stroke="white" stroke-opacity="0.85" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </div>
+            <div>
+              <h2 class="info-title">Integridad</h2>
+              <p class="info-text">Evaluación estandarizada con precisión decimal. Las respuestas se registran de forma inmutable.</p>
+            </div>
+          </div>
+        </article>
+
+        <article class="info-card">
+          <div class="info-top">
+            <div class="info-icon" aria-hidden="true">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <ellipse cx="12" cy="6.3" rx="5.6" ry="2.8" stroke="white" stroke-opacity="0.85" stroke-width="1.7"/>
+                <path d="M6.4 6.3V12C6.4 13.5 8.9 14.7 12 14.7C15.1 14.7 17.6 13.5 17.6 12V6.3" stroke="white" stroke-opacity="0.85" stroke-width="1.7"/>
+                <path d="M6.4 12V17.7C6.4 19.2 8.9 20.4 12 20.4C15.1 20.4 17.6 19.2 17.6 17.7V12" stroke="white" stroke-opacity="0.85" stroke-width="1.7"/>
+              </svg>
+            </div>
+            <div>
+              <h2 class="info-title">Asignación</h2>
+              <p class="info-text">Banco de preguntas calibrado automáticamente según el nivel y grado del estudiante.</p>
+            </div>
+          </div>
+        </article>
+
+        <article class="info-card">
+          <div class="info-top">
+            <div class="info-icon" aria-hidden="true">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M7 18V11" stroke="white" stroke-opacity="0.85" stroke-width="1.7" stroke-linecap="round"/>
+                <path d="M12 18V7" stroke="white" stroke-opacity="0.85" stroke-width="1.7" stroke-linecap="round"/>
+                <path d="M17 18V4" stroke="white" stroke-opacity="0.85" stroke-width="1.7" stroke-linecap="round"/>
+              </svg>
+            </div>
+            <div>
+              <h2 class="info-title">Validación</h2>
+              <p class="info-text">Criterios académicos estrictos aplicados en tiempo real para la generación del reporte final.</p>
+            </div>
+          </div>
+        </article>
+      </aside>
+    </section>
+  </main>
+
+  <div class="floating-note" id="saveNote">Progreso restaurado correctamente.</div>
+
+  <script>
+    // =========================================================
+    // CONFIGURACIÓN GENERAL
+    // =========================================================
+    const STORAGE_KEYS = {
+      student: 'pirstton_student',
+      studentActive: 'estudianteActivo',
+      access: 'pirstton_exam_access',
+      session: 'pirstton_exam_session',
+      result: 'pirstton_exam_result'
+    };
+
+    const RESULT_REDIRECT_PAGE = 'resultados.html';
+
+    // =========================================================
+    // DATOS DE DEMOSTRACIÓN / RESPALDO
+    // Reemplaza estas preguntas por tus preguntas reales cuando quieras.
+    // =========================================================
+    const QUESTION_BANK = {
+      primaria: {
+        matematica: [
+          makeQuestion('matematica', '¿Cuánto es 48 + 27?', ['65', '75', '85', '95'], 1),
+          makeQuestion('matematica', 'Si un cuaderno cuesta 6 soles, ¿cuánto cuestan 4 cuadernos?', ['20', '22', '24', '26'], 2),
+          makeQuestion('matematica', '¿Cuál es el resultado de 9 × 7?', ['56', '63', '72', '79'], 1),
+          makeQuestion('matematica', '¿Cuánto es 96 ÷ 8?', ['10', '11', '12', '13'], 2),
+          makeQuestion('matematica', '¿Qué fracción representa la mitad?', ['1/4', '1/3', '1/2', '2/3'], 2),
+          makeQuestion('matematica', '¿Cuánto es 150 - 68?', ['72', '82', '92', '102'], 1),
+          makeQuestion('matematica', 'En una caja hay 5 filas de 6 lápices. ¿Cuántos lápices hay?', ['11', '25', '30', '35'], 2),
+          makeQuestion('matematica', '¿Cuál es el perímetro de un cuadrado de lado 4 cm?', ['8 cm', '12 cm', '16 cm', '20 cm'], 2),
+          makeQuestion('matematica', '¿Cuánto es 3/4 de 20?', ['10', '12', '15', '18'], 2),
+          makeQuestion('matematica', '¿Qué número sigue en la secuencia 2, 4, 6, 8, ...?', ['9', '10', '12', '14'], 1),
+          makeQuestion('matematica', 'Si una hora tiene 60 minutos, ¿cuántos minutos hay en 2 horas?', ['100', '110', '120', '130'], 2),
+          makeQuestion('matematica', '¿Cuánto es 14 + 19?', ['31', '32', '33', '34'], 2),
+          makeQuestion('matematica', '¿Qué operación da como resultado 45?', ['9 × 4', '5 × 9', '7 × 6', '8 × 5'], 1),
+          makeQuestion('matematica', '¿Cuál es el doble de 36?', ['62', '68', '72', '76'], 2),
+          makeQuestion('matematica', '¿Cuánto es 81 ÷ 9?', ['7', '8', '9', '10'], 2),
+          makeQuestion('matematica', '¿Cuántos lados tiene un hexágono?', ['5', '6', '7', '8'], 1),
+          makeQuestion('matematica', 'Si tienes 3 monedas de 2 soles, ¿cuánto dinero tienes?', ['5', '6', '7', '8'], 1),
+          makeQuestion('matematica', '¿Qué número es mayor?', ['304', '340', '299', '314'], 1),
+          makeQuestion('matematica', '¿Cuánto es 7 × 8 - 6?', ['48', '50', '52', '54'], 1),
+          makeQuestion('matematica', '¿Cuánto es 200 + 150?', ['300', '320', '350', '400'], 2)
+        ],
+        comunicacion: [
+          makeQuestion('comunicacion', '¿Cuál de estas palabras es un sustantivo?', ['Correr', 'Mesa', 'Azul', 'Rápidamente'], 1),
+          makeQuestion('comunicacion', '¿Cuál oración está correctamente escrita?', ['mi perro corre.', 'Mi perro corre.', 'Mi Perro corre.', 'mi Perro corre.'], 1),
+          makeQuestion('comunicacion', 'En la oración “Ana canta bonito”, la palabra “bonito” indica:', ['Lugar', 'Modo', 'Tiempo', 'Cantidad'], 1),
+          makeQuestion('comunicacion', '¿Cuál es el plural de “lápiz”?', ['Lápizes', 'Lápizs', 'Lápices', 'Lápicis'], 2),
+          makeQuestion('comunicacion', '¿Qué signo se usa al final de una pregunta?', ['.', ',', '¿?', ';'], 2),
+          makeQuestion('comunicacion', '¿Cuál de estas palabras lleva tilde?', ['Camion', 'Arbol', 'Casa', 'Nube'], 1),
+          makeQuestion('comunicacion', '¿Cuál es un pronombre personal?', ['Juan', 'Hermoso', 'Nosotros', 'Libro'], 2),
+          makeQuestion('comunicacion', 'Completa: “El niño ___ al parque”.', ['juegan', 'jugar', 'juega', 'jugómos'], 2),
+          makeQuestion('comunicacion', '¿Qué se hace primero en una lectura comprensiva?', ['Memorizar todo', 'Leer con atención', 'Copiar el texto', 'Subrayar al azar'], 1),
+          makeQuestion('comunicacion', '¿Cuál es el sinónimo de “feliz”?', ['Triste', 'Contento', 'Enojado', 'Débil'], 1),
+          makeQuestion('comunicacion', '¿Cuál es el antónimo de “grande”?', ['Alto', 'Ancho', 'Pequeño', 'Largo'], 2),
+          makeQuestion('comunicacion', 'La palabra “rápidamente” es:', ['Verbo', 'Adjetivo', 'Adverbio', 'Artículo'], 2),
+          makeQuestion('comunicacion', '¿Qué expresa un cuento?', ['Solo datos exactos', 'Una historia', 'Una fórmula', 'Una definición'], 1),
+          makeQuestion('comunicacion', '¿Qué palabra completa mejor la oración? “La maestra ___ la clase”.', ['explica', 'explican', 'explicómos', 'explicabanse'], 0),
+          makeQuestion('comunicacion', '¿Qué nombre reciben las palabras que nombran acciones?', ['Adjetivos', 'Verbos', 'Pronombres', 'Artículos'], 1)
+        ]
+      },
+      secundaria: {
+        matematica: [
+          makeQuestion('matematica', 'Si x² - 5x + 6 = 0, ¿cuáles son los valores de x?', ['x = 1 y x = 6', 'x = 2 y x = 3', 'x = -2 y x = -3', 'x = 5 y x = 1'], 1),
+          makeQuestion('matematica', '¿Cuál es el resultado de 3(2x - 4)?', ['6x - 4', '6x - 12', '5x - 12', '6x + 12'], 1),
+          makeQuestion('matematica', 'Si 2x + 7 = 19, entonces x es:', ['5', '6', '7', '8'], 1),
+          makeQuestion('matematica', '¿Cuál es la pendiente de la recta y = 4x - 3?', ['-3', '4', '3', '1/4'], 1),
+          makeQuestion('matematica', '¿Cuánto es (a²)(a³)?', ['a⁵', 'a⁶', '2a⁵', 'a⁹'], 0),
+          makeQuestion('matematica', 'La raíz cuadrada de 144 es:', ['11', '12', '13', '14'], 1),
+          makeQuestion('matematica', '¿Cuál es el área de un triángulo de base 10 y altura 6?', ['16', '30', '60', '120'], 1),
+          makeQuestion('matematica', 'Si un ángulo recto mide:', ['45°', '60°', '90°', '180°'], 2),
+          makeQuestion('matematica', '¿Cuál es el valor de 2³ + 3²?', ['11', '13', '17', '19'], 2),
+          makeQuestion('matematica', 'Simplifica: 5x - 2x + 4', ['3x + 4', '7x', '3x', '7x + 4'], 0),
+          makeQuestion('matematica', 'Si y = 2 y x = 3, ¿cuánto vale xy + y?', ['6', '7', '8', '9'], 2),
+          makeQuestion('matematica', '¿Cuál es la fracción equivalente a 0.25?', ['1/2', '1/3', '1/4', '1/5'], 2),
+          makeQuestion('matematica', '¿Cuánto es 15% de 200?', ['15', '20', '25', '30'], 3),
+          makeQuestion('matematica', 'La solución de x - 9 = -4 es:', ['3', '4', '5', '6'], 2),
+          makeQuestion('matematica', '¿Cuál es el perímetro de un rectángulo de 8 y 5?', ['13', '26', '40', '80'], 1),
+          makeQuestion('matematica', '¿Cuál es el valor absoluto de -12?', ['-12', '0', '12', '24'], 2),
+          makeQuestion('matematica', '¿Qué número es irracional?', ['1/2', '0.75', '√2', '5'], 2),
+          makeQuestion('matematica', '¿Cuál es el resultado de (x + 2)(x + 3)?', ['x² + 5x + 6', 'x² + 6', 'x² + 3x + 2', 'x² + 5x'], 0),
+          makeQuestion('matematica', 'Si 5m = 45, entonces m vale:', ['7', '8', '9', '10'], 2),
+          makeQuestion('matematica', '¿Cuál es el promedio de 8, 10 y 12?', ['9', '10', '11', '12'], 1)
+        ],
+        comunicacion: [
+          makeQuestion('comunicacion', '¿Cuál es la idea principal de un texto?', ['El título solamente', 'El mensaje central', 'La última oración', 'Las palabras difíciles'], 1),
+          makeQuestion('comunicacion', '¿Qué tipo de texto busca informar objetivamente?', ['Poético', 'Narrativo', 'Expositivo', 'Dramático'], 2),
+          makeQuestion('comunicacion', '¿Cuál de estas palabras es un conector de causa?', ['Aunque', 'Porque', 'Sin embargo', 'Luego'], 1),
+          makeQuestion('comunicacion', 'En la oración “María, cierra la puerta”, la coma cumple función:', ['Enumerativa', 'Vocativa', 'Explicativa', 'Elíptica'], 1),
+          makeQuestion('comunicacion', '¿Qué recurso aparece en “sus ojos brillaban como estrellas”?', ['Hipérbole', 'Metáfora', 'Comparación', 'Anáfora'], 2),
+          makeQuestion('comunicacion', '¿Cuál es el sinónimo más adecuado de “eficaz”?', ['Inútil', 'Rápido', 'Eficiente', 'Pesado'], 2),
+          makeQuestion('comunicacion', '¿Cuál es el antónimo de “escaso”?', ['Abundante', 'Breve', 'Ligero', 'Vacío'], 0),
+          makeQuestion('comunicacion', 'En “Nos prepararemos para el examen”, el verbo está en:', ['Presente', 'Pasado', 'Futuro', 'Imperativo'], 2),
+          makeQuestion('comunicacion', '¿Qué función cumple el título de un texto?', ['Ocultar el contenido', 'Anticipar el tema', 'Cambiar la idea central', 'Decorar solamente'], 1),
+          makeQuestion('comunicacion', '¿Cuál es una característica de un texto argumentativo?', ['Presenta una postura', 'Solo narra hechos', 'No tiene conclusión', 'Usa solo diálogos'], 0),
+          makeQuestion('comunicacion', '¿Qué significa inferir en una lectura?', ['Copiar una frase', 'Sacar una conclusión a partir de pistas', 'Leer rápido', 'Subrayar títulos'], 1),
+          makeQuestion('comunicacion', '¿Cuál oración presenta tilde correcta?', ['El analisis fue claro.', 'El análisis fue claro.', 'El análisi fue claro.', 'El analisís fue claro.'], 1),
+          makeQuestion('comunicacion', '¿Qué relación semántica tienen “inicio” y “comienzo”?', ['Antonimia', 'Paronimia', 'Sinonimia', 'Polisemia'], 2),
+          makeQuestion('comunicacion', 'En “La ciudad despertó lentamente”, “lentamente” es:', ['Sustantivo', 'Adjetivo', 'Verbo', 'Adverbio'], 3),
+          makeQuestion('comunicacion', '¿Cuál es el propósito principal de un resumen?', ['Añadir opiniones nuevas', 'Reducir y conservar lo esencial', 'Copiar todo el texto', 'Cambiar el sentido'], 1),
+          makeQuestion('comunicacion', '¿Qué se debe identificar primero en una pregunta de comprensión?', ['La letra más larga', 'Lo que se pide exactamente', 'La primera opción', 'La palabra final'], 1),
+          makeQuestion('comunicacion', '¿Qué función del lenguaje predomina en una noticia?', ['Poética', 'Referencial', 'Emotiva', 'Apelativa'], 1),
+          makeQuestion('comunicacion', 'La palabra “hubieron”, usada como existencia general, es:', ['Correcta siempre', 'Incorrecta en ese uso', 'Solo poética', 'Un adjetivo'], 1),
+          makeQuestion('comunicacion', '¿Qué conector expresa contraste?', ['Además', 'Porque', 'Sin embargo', 'Por eso'], 2),
+          makeQuestion('comunicacion', '¿Qué debe tener una conclusión efectiva?', ['Ideas nuevas sin relación', 'Cierre coherente con lo expuesto', 'Solo una pregunta', 'Un título adicional'], 1)
+        ]
+      }
+    };
+
+    // =========================================================
+    // ELEMENTOS DEL DOM
+    // =========================================================
+    const questionText = document.getElementById('questionText');
+    const optionsList = document.getElementById('optionsList');
+    const nextButton = document.getElementById('nextButton');
+    const nextButtonText = document.getElementById('nextButtonText');
+    const progressText = document.getElementById('progressText');
+    const progressFill = document.getElementById('progressFill');
+    const timeRemaining = document.getElementById('timeRemaining');
+    const saveNote = document.getElementById('saveNote');
+
+    // =========================================================
+    // ESTADO DE LA SESIÓN
+    // =========================================================
+    let sessionState = null;
+    let timerInterval = null;
+
+    initializeExam();
+
+    function initializeExam() {
+      const restoredSession = getStoredSession();
+
+      if (restoredSession) {
+        sessionState = restoredSession;
+        renderCurrentQuestion();
+        startTimer();
+        showRestoreNote();
+        return;
+      }
+
+      const student = getStudentData();
+      const examConfig = buildExamConfig(student);
+      const questionSet = buildQuestionSet(student.nivel);
+
+      sessionState = {
+        version: 1,
+        examStartedAt: Date.now(),
+        examEndsAt: Date.now() + examConfig.timeInSeconds * 1000,
+        currentIndex: 0,
+        student,
+        config: examConfig,
+        questions: questionSet,
+        answers: new Array(questionSet.length).fill(null),
+        completed: false
+      };
+
+      saveSession();
+      renderCurrentQuestion();
+      startTimer();
+    }
+
+    function getStoredSession() {
+      try {
+        const raw = localStorage.getItem(STORAGE_KEYS.session);
+        if (!raw) return null;
+
+        const parsed = JSON.parse(raw);
+        if (!parsed || parsed.completed) return null;
+        if (!Array.isArray(parsed.questions) || !Array.isArray(parsed.answers)) return null;
+        if (typeof parsed.currentIndex !== 'number') return null;
+        if (typeof parsed.examEndsAt !== 'number') return null;
+
+        return parsed;
+      } catch (error) {
+        console.warn('No se pudo restaurar la sesión del examen.', error);
+        return null;
+      }
+    }
+
+    function getStudentData() {
+      const fallback = {
+        codigo: 'EST001',
+        nombre: 'Andrea Luciana Torres',
+        nivel: 'primaria',
+        grado: '6to grado'
+      };
+
+      try {
+        const rawStudent = localStorage.getItem(STORAGE_KEYS.student);
+        const rawStudentActive = localStorage.getItem(STORAGE_KEYS.studentActive);
+        const rawAccess = localStorage.getItem(STORAGE_KEYS.access);
+
+        const student = rawStudent ? JSON.parse(rawStudent) : null;
+        const studentActive = rawStudentActive ? JSON.parse(rawStudentActive) : null;
+        const access = rawAccess ? JSON.parse(rawAccess) : null;
+        const merged = { ...fallback, ...(student || {}), ...(studentActive || {}), ...(access || {}) };
+
+        const rawLevel = merged.nivel || merged.nivelAcademico || merged.level || '';
+        const normalizedLevel = normalizeLevel(rawLevel);
+
+        return {
+          codigo: merged.codigo || merged.id || fallback.codigo,
+          nombre: merged.nombre || merged.studentName || fallback.nombre,
+          nivel: normalizedLevel,
+          grado: merged.grado || merged.gradoAcademico || extractGradeLabel(rawLevel) || fallback.grado
+        };
+      } catch (error) {
+        console.warn('No se pudieron leer los datos del estudiante. Se usará modo demo.', error);
+        return fallback;
+      }
+    }
+
+    function buildExamConfig(level) {
+      const levelName = typeof level === 'string' ? level : level.nivel;
+      if (levelName === 'secundaria') {
+        return {
+          totalQuestions: 30,
+          timeInSeconds: 37 * 60,
+          mathCount: 15,
+          communicationCount: 15,
+          level: 'secundaria'
+        };
+      }
+
+      return {
+        totalQuestions: 25,
+        timeInSeconds: 30 * 60,
+        mathCount: 15,
+        communicationCount: 10,
+        level: 'primaria'
+      };
+    }
+
+    function buildQuestionSet(level) {
+      const levelKey = normalizeLevel(level);
+      const config = buildExamConfig(levelKey);
+      const bank = QUESTION_BANK[levelKey];
+
+      const selectedMath = shuffleArray([...bank.matematica]).slice(0, config.mathCount);
+      const selectedCommunication = shuffleArray([...bank.comunicacion]).slice(0, config.communicationCount);
+      const combined = shuffleArray([...selectedMath, ...selectedCommunication]);
+
+      return combined.map((question, index) => ({
+        id: `${levelKey}-${index + 1}-${slugify(question.question)}`,
+        ...question
+      }));
+    }
+
+    function renderCurrentQuestion() {
+      const currentQuestion = sessionState.questions[sessionState.currentIndex];
+      const currentAnswer = sessionState.answers[sessionState.currentIndex];
+      const totalQuestions = sessionState.questions.length;
+      const currentPosition = sessionState.currentIndex + 1;
+
+      questionText.innerHTML = currentQuestion.question;
+      progressText.textContent = `${currentPosition}/${totalQuestions}`;
+      progressFill.style.width = `${(currentPosition / totalQuestions) * 100}%`;
+      nextButtonText.textContent = currentPosition === totalQuestions ? 'Finalizar Examen' : 'Siguiente Pregunta';
+
+      optionsList.innerHTML = '';
+      currentQuestion.options.forEach((option, index) => {
+        const button = document.createElement('button');
+        button.type = 'button';
+        button.className = 'option-btn';
+        button.setAttribute('data-index', String(index));
+        button.setAttribute('aria-pressed', currentAnswer === index ? 'true' : 'false');
+
+        if (currentAnswer === index) {
+          button.classList.add('selected');
+        }
+
+        button.innerHTML = `
+          <span class="option-letter">${String.fromCharCode(65 + index)}</span>
+          <span class="option-content">${option}</span>
+        `;
+
+        button.addEventListener('click', () => selectOption(index));
+        optionsList.appendChild(button);
+      });
+
+      updateTimerText();
+    }
+
+    function selectOption(optionIndex) {
+      sessionState.answers[sessionState.currentIndex] = optionIndex;
+      saveSession();
+      renderCurrentQuestion();
+    }
+
+    nextButton.addEventListener('click', () => {
+      const isLastQuestion = sessionState.currentIndex >= sessionState.questions.length - 1;
+
+      if (isLastQuestion) {
+        finishExam('completed');
+        return;
+      }
+
+      sessionState.currentIndex += 1;
+      saveSession();
+      renderCurrentQuestion();
+    });
+
+    function startTimer() {
+      clearInterval(timerInterval);
+      updateTimerText();
+
+      timerInterval = setInterval(() => {
+        const remaining = getRemainingSeconds();
+
+        if (remaining <= 0) {
+          clearInterval(timerInterval);
+          timeRemaining.textContent = '00:00';
+          finishExam('timeout');
+          return;
+        }
+
+        updateTimerText();
+        saveSession();
+      }, 1000);
+    }
+
+    function updateTimerText() {
+      timeRemaining.textContent = formatTime(getRemainingSeconds());
+    }
+
+    function getRemainingSeconds() {
+      const diff = Math.floor((sessionState.examEndsAt - Date.now()) / 1000);
+      return Math.max(diff, 0);
+    }
+
+    function finishExam(reason) {
+      if (!sessionState || sessionState.completed) return;
+
+      sessionState.completed = true;
+      saveSession();
+
+      const resultPayload = buildResultPayload(reason);
+      localStorage.setItem(STORAGE_KEYS.result, JSON.stringify(resultPayload));
+      localStorage.removeItem(STORAGE_KEYS.session);
+
+      window.location.href = RESULT_REDIRECT_PAGE;
+    }
+
+    function buildResultPayload(reason) {
+      const answeredCount = sessionState.answers.filter(answer => answer !== null).length;
+      let correctCount = 0;
+
+      sessionState.questions.forEach((question, index) => {
+        if (sessionState.answers[index] === question.correctAnswer) {
+          correctCount += 1;
+        }
+      });
+
+      return {
+        status: reason,
+        student: sessionState.student,
+        config: sessionState.config,
+        finishedAt: Date.now(),
+        totalQuestions: sessionState.questions.length,
+        answered: answeredCount,
+        blank: sessionState.questions.length - answeredCount,
+        correct: correctCount,
+        incorrect: answeredCount - correctCount,
+        score: correctCount,
+        answers: sessionState.answers,
+        questions: sessionState.questions
+      };
+    }
+
+    function saveSession() {
+      localStorage.setItem(STORAGE_KEYS.session, JSON.stringify(sessionState));
+    }
+
+    function showRestoreNote() {
+      saveNote.style.display = 'block';
+      setTimeout(() => {
+        saveNote.style.display = 'none';
+      }, 2600);
+    }
+
+    // =========================================================
+    // FUNCIONES AUXILIARES
+    // =========================================================
+    function makeQuestion(course, question, options, correctAnswer) {
+      return { course, question, options, correctAnswer };
+    }
+
+    function normalizeLevel(value) {
+      const safe = String(value || '').toLowerCase().trim();
+      return safe.includes('sec') ? 'secundaria' : 'primaria';
+    }
+
+    function extractGradeLabel(value) {
+      const safe = String(value || '').trim();
+      if (!safe) return '';
+
+      if (/^primaria/i.test(safe)) {
+        const grade = safe.replace(/^primaria/i, '').trim();
+        return grade ? `${grade} grado` : '';
+      }
+
+      if (/^secundaria/i.test(safe)) {
+        const grade = safe.replace(/^secundaria/i, '').trim();
+        return grade ? `${grade} año` : '';
+      }
+
+      return '';
+    }
+
+    function shuffleArray(array) {
+      for (let i = array.length - 1; i > 0; i -= 1) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [array[i], array[j]] = [array[j], array[i]];
+      }
+      return array;
+    }
+
+    function formatTime(totalSeconds) {
+      const minutes = Math.floor(totalSeconds / 60);
+      const seconds = totalSeconds % 60;
+      return `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
+    }
+
+    function slugify(value) {
+      return String(value)
+        .normalize('NFD')
+        .replace(/[\u0300-\u036f]/g, '')
+        .toLowerCase()
+        .replace(/[^a-z0-9]+/g, '-')
+        .replace(/^-+|-+$/g, '')
+        .slice(0, 48);
+    }
+  </script>
+</body>
+</html>
