@@ -96,24 +96,76 @@
       color: #d49c6d;
     }
 
-    .brand-icon {
+    /* =========================================================
+       04.A. LOGO ANIMADO PIRSTTON
+    ========================================================= */
+    .brand-logo {
       width: 16px;
       height: 16px;
-      background: #c39267;
-      border: 1px solid #8f6746;
       position: relative;
-      display: inline-block;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      flex: 0 0 16px;
+      border-radius: 50%;
+      overflow: hidden;
+      isolation: isolate;
+      background: rgba(255,255,255,0.02);
+      box-shadow: 0 0 0 1px rgba(255,255,255,0.06);
     }
 
-    .brand-icon::before {
+    .brand-logo::before {
       content: "";
       position: absolute;
-      left: 2px;
-      right: 2px;
-      bottom: 2px;
-      height: 7px;
-      background: #f2e8df;
-      clip-path: polygon(0 100%, 0 45%, 50% 0, 100% 45%, 100% 100%);
+      inset: 0;
+      border-radius: 50%;
+      background: radial-gradient(circle at 30% 30%, rgba(255,255,255,0.08), transparent 58%);
+      z-index: 0;
+      pointer-events: none;
+    }
+
+    .brand-logo-layer {
+      position: absolute;
+      inset: 0;
+      background-image: url("logo.webp");
+      background-repeat: no-repeat;
+      background-position: center;
+      background-size: contain;
+      transform: translate3d(-24px, 0, 0) scale(0.88);
+      opacity: 0;
+      will-change: transform, opacity;
+      backface-visibility: hidden;
+      filter: drop-shadow(0 1px 1px rgba(0,0,0,0.18));
+    }
+
+    .brand-logo-layer.layer-back {
+      clip-path: polygon(0 0, 48% 0, 42% 100%, 0 100%);
+      animation: logoLayerBack 7s cubic-bezier(0.22, 1, 0.36, 1) infinite;
+      z-index: 1;
+    }
+
+    .brand-logo-layer.layer-middle {
+      clip-path: polygon(24% 0, 76% 0, 68% 100%, 17% 100%);
+      animation: logoLayerMiddle 7s cubic-bezier(0.22, 1, 0.36, 1) infinite;
+      z-index: 2;
+    }
+
+    .brand-logo-layer.layer-front {
+      clip-path: polygon(52% 0, 100% 0, 100% 100%, 43% 100%);
+      animation: logoLayerFront 7s cubic-bezier(0.22, 1, 0.36, 1) infinite;
+      z-index: 3;
+    }
+
+    .brand-logo-shine {
+      position: absolute;
+      inset: 0;
+      border-radius: 50%;
+      background: linear-gradient(135deg, rgba(255,255,255,0.18), transparent 42%, transparent 68%, rgba(255,255,255,0.08));
+      mix-blend-mode: screen;
+      opacity: 0;
+      z-index: 4;
+      pointer-events: none;
+      animation: logoShine 7s ease-in-out infinite;
     }
 
     .nav {
@@ -681,6 +733,79 @@
       50% { transform: scale(1.15) rotate(30deg); opacity: 1; }
     }
 
+
+    @keyframes logoLayerBack {
+      0%, 8% {
+        transform: translate3d(-24px, 0, 0) scale(0.88);
+        opacity: 0;
+      }
+      13% {
+        transform: translate3d(1px, 0, 0) scale(1.03);
+        opacity: 1;
+      }
+      16% {
+        transform: translate3d(-1px, 0, 0) scale(0.98);
+        opacity: 1;
+      }
+      19%, 100% {
+        transform: translate3d(0, 0, 0) scale(1);
+        opacity: 1;
+      }
+    }
+
+    @keyframes logoLayerMiddle {
+      0%, 12% {
+        transform: translate3d(-24px, 0, 0) scale(0.88);
+        opacity: 0;
+      }
+      18% {
+        transform: translate3d(1px, 0, 0) scale(1.04);
+        opacity: 1;
+      }
+      21% {
+        transform: translate3d(-1px, 0, 0) scale(0.985);
+        opacity: 1;
+      }
+      24%, 100% {
+        transform: translate3d(0, 0, 0) scale(1);
+        opacity: 1;
+      }
+    }
+
+    @keyframes logoLayerFront {
+      0%, 16% {
+        transform: translate3d(-24px, 0, 0) scale(0.88);
+        opacity: 0;
+      }
+      23% {
+        transform: translate3d(1px, 0, 0) scale(1.06);
+        opacity: 1;
+      }
+      26% {
+        transform: translate3d(-1px, 0, 0) scale(0.99);
+        opacity: 1;
+      }
+      29%, 100% {
+        transform: translate3d(0, 0, 0) scale(1);
+        opacity: 1;
+      }
+    }
+
+    @keyframes logoShine {
+      0%, 26% {
+        opacity: 0;
+        transform: translateX(-20%) scale(0.96);
+      }
+      31% {
+        opacity: 0.95;
+        transform: translateX(0) scale(1);
+      }
+      37%, 100% {
+        opacity: 0.12;
+        transform: translateX(0) scale(1);
+      }
+    }
+
     /* =========================================================
        16. RESPONSIVE TABLET
     ========================================================= */
@@ -816,7 +941,12 @@
     ======================================================== -->
     <div class="topbar">
       <div class="brand">
-        <span class="brand-icon"></span>
+        <span class="brand-logo" aria-hidden="true">
+          <span class="brand-logo-layer layer-back"></span>
+          <span class="brand-logo-layer layer-middle"></span>
+          <span class="brand-logo-layer layer-front"></span>
+          <span class="brand-logo-shine"></span>
+        </span>
         <span class="brand-text" aria-label="Pirstton">
           <span>P</span><span>I</span><span>R</span><span>S</span><span>T</span><span>T</span><span>O</span><span>N</span>
         </span>
