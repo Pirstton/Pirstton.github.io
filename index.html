@@ -207,27 +207,27 @@
     /* Botón superior derecho: Pirstton Kids */
     .kids-button {
       position: absolute;
-      top: 6px;
-      right: 26px;
-      width: 266px;
-      height: 44px;
+      top: 8px;
+      right: 22px;
+      width: 250px;
+      height: 40px;
       display: inline-flex;
       align-items: center;
       justify-content: flex-start;
-      gap: 14px;
-      padding: 0 18px 0 18px;
-      border-radius: 12px;
-      border: 1px solid rgba(255, 222, 181, 0.55);
+      gap: 12px;
+      padding: 0 16px;
+      border-radius: 10px;
+      border: 1px solid rgba(255, 220, 176, 0.42);
       background:
-        linear-gradient(180deg, rgba(255, 189, 102, 0.18), rgba(255, 189, 102, 0.08)),
-        linear-gradient(135deg, rgba(80, 57, 33, 0.92), rgba(53, 38, 24, 0.96));
+        linear-gradient(180deg, rgba(255, 189, 102, 0.14), rgba(255, 189, 102, 0.05)),
+        linear-gradient(135deg, rgba(72, 54, 37, 0.96), rgba(46, 35, 24, 0.98));
       color: #fff;
       text-decoration: none;
       overflow: hidden;
       box-shadow:
-        inset 0 1px 0 rgba(255,255,255,0.10),
-        inset 0 0 0 1px rgba(255,255,255,0.03),
-        0 10px 22px rgba(0, 0, 0, 0.22);
+        inset 0 1px 0 rgba(255,255,255,0.08),
+        inset 0 0 0 1px rgba(255,255,255,0.025),
+        0 5px 12px rgba(0, 0, 0, 0.16);
       z-index: 24;
       transition: transform 0.28s ease, box-shadow 0.28s ease, border-color 0.28s ease, background 0.28s ease;
       isolation: isolate;
@@ -248,10 +248,10 @@
     .kids-button::after {
       content: "";
       position: absolute;
-      right: -28px;
+      right: -24px;
       top: 50%;
-      width: 92px;
-      height: 92px;
+      width: 82px;
+      height: 82px;
       transform: translateY(-50%);
       border-radius: 50%;
       background: radial-gradient(circle at 35% 35%, rgba(255,255,255,0.42), rgba(255,198,116,0.95) 42%, rgba(214,132,48,0.95) 100%);
@@ -264,9 +264,9 @@
 
     .kids-orb {
       position: relative;
-      width: 28px;
-      height: 28px;
-      flex: 0 0 28px;
+      width: 26px;
+      height: 26px;
+      flex: 0 0 26px;
       border-radius: 50%;
       background:
         radial-gradient(circle at 30% 30%, rgba(255,255,255,0.9), rgba(255,255,255,0.18) 26%, transparent 27%),
@@ -303,7 +303,7 @@
     .kids-label {
       display: inline-flex;
       align-items: center;
-      gap: 3px;
+      gap: 2px;
       position: relative;
       z-index: 3;
       white-space: nowrap;
@@ -316,9 +316,9 @@
 
     .kids-char {
       display: inline-block;
-      font-size: 18px;
+      font-size: 17px;
       font-weight: 900;
-      letter-spacing: 0.45px;
+      letter-spacing: 0.2px;
       color: #fff5df;
       text-shadow: 0 1px 0 rgba(0,0,0,0.24);
       will-change: transform, opacity;
@@ -332,8 +332,21 @@
       color: #ffd26f;
     }
 
+    .kids-label .kids-char-wrap:nth-child(1) .kids-char { color: #ff6f61; }
+    .kids-label .kids-char-wrap:nth-child(2) .kids-char { color: #ffd166; }
+    .kids-label .kids-char-wrap:nth-child(3) .kids-char { color: #7bd389; }
+    .kids-label .kids-char-wrap:nth-child(4) .kids-char { color: #78a6ff; }
+    .kids-label .kids-char-wrap:nth-child(5) .kids-char { color: #c792ea; }
+    .kids-label .kids-char-wrap:nth-child(6) .kids-char { color: #ff9f68; }
+    .kids-label .kids-char-wrap:nth-child(7) .kids-char { color: #63d2ff; }
+    .kids-label .kids-char-wrap:nth-child(8) .kids-char { color: #f7c948; }
+    .kids-label .kids-char-wrap:nth-child(10) .kids-char { color: #ff7fa7; }
+    .kids-label .kids-char-wrap:nth-child(11) .kids-char { color: #6ee7b7; }
+    .kids-label .kids-char-wrap:nth-child(12) .kids-char { color: #ffd166; }
+    .kids-label .kids-char-wrap:nth-child(13) .kids-char { color: #7aa2ff; }
+
     .kids-button:hover {
-      transform: translateY(-3px);
+      transform: translateY(-2px);
       border-color: rgba(255, 223, 170, 0.85);
       background:
         linear-gradient(180deg, rgba(255, 189, 102, 0.24), rgba(255, 189, 102, 0.10)),
@@ -847,15 +860,15 @@
       opacity: 0;
     }
 
-    .stats .stat:nth-of-type(1) {
+    .stats > .stat:nth-child(1) {
       animation: statSlideLeft 1s cubic-bezier(0.22, 1, 0.36, 1) 2.2s both;
     }
 
-    .stats .stat:nth-of-type(2) {
+    .stats > .stat:nth-child(3) {
       animation: statSlideRight 1s cubic-bezier(0.22, 1, 0.36, 1) 2.45s both;
     }
 
-    .stats .stat:nth-of-type(3) {
+    .stats > .stat:nth-child(5) {
       animation: statSlideLeft 1s cubic-bezier(0.22, 1, 0.36, 1) 2.7s both;
     }
 
@@ -864,7 +877,7 @@
       animation: statSeparatorFade 0.7s ease-out 2.55s both;
     }
 
-    .stats .sep:nth-of-type(4) {
+    .stats > .sep:nth-child(4) {
       animation-delay: 2.8s;
     }
 
@@ -1040,7 +1053,7 @@
 
     @keyframes heroPhotoAntiZoom {
       0% {
-        transform: scale(1.08);
+        transform: scale(1.15);
         filter: saturate(1.02);
       }
       100% {
@@ -1272,6 +1285,28 @@
         opacity: 0.12;
         transform: translateX(0) scale(1);
       }
+    }
+
+    /* =========================================================
+       15.B AJUSTES DE VISIBILIDAD CORREGIDOS
+    ========================================================= */
+    .desc {
+      display: block;
+    }
+
+    .discount {
+      display: flex;
+    }
+
+    .stats {
+      display: flex;
+    }
+
+    .stats > .stat,
+    .stats > .sep,
+    .discount,
+    .desc {
+      visibility: visible;
     }
 
     /* =========================================================
