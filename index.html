@@ -1053,7 +1053,7 @@
 
     @keyframes heroPhotoAntiZoom {
       0% {
-        transform: scale(1.15);
+        transform: scale(1.18);
         filter: saturate(1.02);
       }
       100% {
@@ -1290,6 +1290,44 @@
     /* =========================================================
        15.B AJUSTES DE VISIBILIDAD CORREGIDOS
     ========================================================= */
+    /* =========================================================
+       15.C REACTIVACIÓN REAL DE ANIMACIONES CORREGIDAS
+    ========================================================= */
+    .desc {
+      opacity: 0;
+      animation: descPremiumEntrance 1.35s cubic-bezier(0.22, 1, 0.36, 1) 1.55s both !important;
+    }
+
+    .discount {
+      opacity: 0;
+      animation: cardStaggerUp 0.95s cubic-bezier(0.22, 1, 0.36, 1) 3.24s both !important;
+    }
+
+    .stats > .stat:nth-child(1) {
+      opacity: 0;
+      animation: statSlideLeft 1s cubic-bezier(0.22, 1, 0.36, 1) 2.2s both !important;
+    }
+
+    .stats > .stat:nth-child(3) {
+      opacity: 0;
+      animation: statSlideRight 1s cubic-bezier(0.22, 1, 0.36, 1) 2.45s both !important;
+    }
+
+    .stats > .stat:nth-child(5) {
+      opacity: 0;
+      animation: statSlideLeft 1s cubic-bezier(0.22, 1, 0.36, 1) 2.7s both !important;
+    }
+
+    .stats > .sep:nth-child(2) {
+      opacity: 0;
+      animation: statSeparatorFade 0.7s ease-out 2.55s both !important;
+    }
+
+    .stats > .sep:nth-child(4) {
+      opacity: 0;
+      animation: statSeparatorFade 0.7s ease-out 2.8s both !important;
+    }
+
     .desc {
       display: block;
     }
