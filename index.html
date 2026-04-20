@@ -1347,140 +1347,90 @@
       visibility: visible;
     }
 
+    
     /* =========================================================
        16. RESPONSIVE TABLET
     ========================================================= */
-    @media (max-width: 900px) {
+    @media (max-width: 1024px) {
       body {
         padding: 14px;
       }
 
       .frame {
-        width: min(100%, 920px);
-        min-height: 920px;
+        width: min(100%, 96vw);
         aspect-ratio: auto;
+        min-height: 860px;
       }
 
       .topbar {
-        position: relative;
-        height: auto;
-        padding: 16px 22px 18px;
-        flex-wrap: wrap;
-        align-items: center;
-        justify-content: flex-start;
-        gap: 14px 20px;
-      }
-
-      .brand {
-        margin-right: auto;
+        padding: 0 22px;
       }
 
       .nav {
-        margin-left: 0;
-        margin-right: 0;
-        padding-right: 0;
-        flex-wrap: wrap;
-        gap: 12px 18px;
+        margin-right: 285px;
+        gap: 16px;
       }
 
       .kids-button {
-        position: relative;
-        top: auto;
-        right: auto;
-        bottom: auto;
-        margin-left: auto;
-        width: 226px;
-      }
-
-      .left-divider,
-      .top-circle,
-      .outline-box,
-      .mid-outline,
-      .mini-lines,
-      .dots1,
-      .dots2,
-      .dots3,
-      .dots4 {
-        display: none;
+        right: 18px;
+        width: 220px;
       }
 
       .hero {
-        position: relative;
-        inset: auto;
-        min-height: 720px;
-        padding: 34px 44px 34px;
-        display: flex;
-        flex-direction: column;
-        align-items: flex-start;
-        justify-content: flex-start;
-        gap: 18px;
-      }
-
-      .photo {
-        position: absolute;
-        inset: 0;
-      }
-
-      .photo img {
-        object-position: center right;
-      }
-
-      .title,
-      .desc,
-      .button-stack,
-      .discount,
-      .stats,
-      .line-accent,
-      .left-block,
-      .big-circle,
-      .small-circle,
-      .bottom-lines {
-        position: relative;
-        left: auto;
-        right: auto;
-        top: auto;
-        bottom: auto;
-        transform: none;
+        inset: 58px 0 0 0;
       }
 
       .title {
-        margin-top: 8px;
+        left: 52px;
+        top: 92px;
+      }
+
+      .desc,
+      .button-stack,
+      .line-accent {
+        left: 54px;
       }
 
       .desc {
-        width: min(100%, 560px);
-        white-space: normal;
-        line-height: 1.65;
+        top: 226px;
       }
 
       .button-stack {
-        width: min(100%, 320px);
-      }
-
-      .hero-button {
-        min-width: 0;
-        width: 100%;
+        top: 276px;
       }
 
       .discount {
-        margin-top: 2px;
+        left: 304px;
+        top: 274px;
       }
 
-      .line-accent {
-        width: 190px;
-        margin-top: 2px;
+      .mid-outline {
+        left: 432px;
+        top: 274px;
+        width: 220px;
+      }
+
+      .photo img {
+        object-position: 66% center;
       }
 
       .stats {
-        width: 100%;
-        margin-top: auto;
+        width: calc(100% - 110px);
+        left: 54px;
+        right: 54px;
+        transform: none;
         justify-content: flex-start;
-        gap: 18px;
-        flex-wrap: wrap;
+        gap: 20px;
+        bottom: 42px;
       }
 
-      .stat {
-        min-width: 180px;
+      .stat span {
+        font-size: 10px;
+      }
+
+      .dots4 {
+        right: 54px;
+        top: 160px;
       }
     }
 
@@ -1494,112 +1444,265 @@
 
       .frame {
         width: 100%;
-        min-height: 960px;
+        min-height: 1320px;
+        border-width: 3px;
       }
 
       .topbar {
-        padding: 16px 18px 18px;
+        height: auto;
+        min-height: 96px;
+        padding: 14px 16px 64px;
         flex-direction: column;
         align-items: flex-start;
-        gap: 12px;
-      }
-
-      .brand {
-        margin-right: 0;
+        gap: 10px;
       }
 
       .brand-text {
         font-size: 15px;
-        letter-spacing: 1.8px;
+        letter-spacing: 2px;
       }
 
       .nav {
-        width: 100%;
-        gap: 10px 14px;
-        font-size: 11px;
+        margin-left: 0;
+        margin-right: 0;
+        padding-right: 0;
+        gap: 12px 16px;
+        flex-wrap: wrap;
       }
 
       .kids-button {
-        margin-left: 0;
-        width: min(100%, 240px);
-        height: 42px;
+        top: auto;
+        bottom: 14px;
+        right: 16px;
+        width: 210px;
+        height: 40px;
       }
 
       .hero {
-        min-height: 760px;
-        padding: 24px 22px 28px;
-        gap: 14px;
+        inset: 118px 0 0 0;
       }
 
       .photo img {
-        object-fit: cover;
-        object-position: 70% center;
+        object-fit: contain;
+        object-position: center 58%;
       }
 
       .title {
-        width: 100%;
+        left: 28px;
+        top: 54px;
       }
 
       .title .line1 {
-        font-size: clamp(34px, 11vw, 48px);
+        font-size: clamp(40px, 12vw, 54px);
       }
 
       .title .line2 {
-        font-size: clamp(32px, 10vw, 46px);
+        font-size: clamp(37px, 11vw, 50px);
       }
 
       .desc {
-        width: min(100%, 360px);
+        left: 30px;
+        top: 260px;
+        width: calc(100% - 60px);
         font-size: 12px;
+        line-height: 1.75;
+        white-space: normal;
       }
 
       .button-stack {
-        width: min(100%, 270px);
-        gap: 10px;
+        left: 30px;
+        top: 332px;
+        width: calc(100% - 60px);
       }
 
       .hero-button {
-        padding: 12px 16px;
-        font-size: 9.5px;
+        min-width: 0;
+        width: 100%;
+        padding: 14px 18px;
+        font-size: 11px;
       }
 
       .discount {
-        width: 146px;
-        height: 52px;
-        font-size: 16px;
+        left: 30px;
+        top: 542px;
+        width: 170px;
+        height: 62px;
       }
 
-      .line-accent,
-      .left-block,
-      .big-circle,
-      .small-circle,
-      .bottom-lines {
+      .mid-outline {
+        left: 170px;
+        top: 542px;
+        width: calc(100% - 200px);
+        height: 62px;
+      }
+
+      .line-accent {
+        left: 30px;
+        bottom: 214px;
+        width: 178px;
+        height: 8px;
+      }
+
+      .left-block {
+        top: 216px;
+        height: 84px;
+      }
+
+      .outline-box {
+        left: -16px;
+        top: 404px;
+        width: 42px;
+        height: 90px;
+      }
+
+      .top-circle {
         display: none;
+      }
+
+      .small-circle {
+        left: -8px;
+        bottom: 178px;
+        width: 22px;
+        height: 22px;
+      }
+
+      .big-circle {
+        right: -54px;
+        bottom: 34px;
+        width: 132px;
+        height: 132px;
+      }
+
+      .mini-lines {
+        left: auto;
+        right: 86px;
+        top: 170px;
+      }
+
+      .dots1 {
+        left: auto;
+        right: 78px;
+        top: 178px;
+      }
+
+      .dots2 {
+        left: 34px;
+        top: auto;
+        bottom: 258px;
+      }
+
+      .dots3 {
+        left: auto;
+        right: 48px;
+        top: 178px;
+      }
+
+      .dots4 {
+        right: 46px;
+        top: 246px;
+      }
+
+      .bottom-lines {
+        left: 42px;
+        bottom: 144px;
       }
 
       .stats {
-        align-items: flex-start;
-        gap: 12px;
+        left: 30px;
+        right: 30px;
+        width: auto;
+        transform: none;
+        bottom: 52px;
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 18px;
+        justify-content: start;
+        align-items: start;
+      }
+
+      .stats .sep {
+        display: none;
       }
 
       .stat {
-        width: 100%;
-        min-width: 0;
-        gap: 10px;
+        gap: 14px;
+        align-items: baseline;
       }
 
       .stat strong {
-        font-size: 18px;
+        min-width: 72px;
+        font-size: 24px;
       }
 
       .stat span {
-        font-size: 8px;
-      }
-
-      .sep {
-        display: none;
+        font-size: 9px;
+        letter-spacing: 0.5px;
       }
     }
+
+    /* =========================================================
+       18. RESPONSIVE MÓVIL PEQUEÑO
+    ========================================================= */
+    @media (max-width: 430px) {
+      .frame {
+        min-height: 1250px;
+      }
+
+      .title {
+        left: 24px;
+        top: 48px;
+      }
+
+      .desc {
+        left: 26px;
+        width: calc(100% - 52px);
+        top: 246px;
+      }
+
+      .button-stack {
+        left: 26px;
+        width: calc(100% - 52px);
+        top: 314px;
+      }
+
+      .discount {
+        left: 26px;
+        top: 520px;
+        width: 156px;
+        height: 58px;
+        font-size: 17px;
+      }
+
+      .mid-outline {
+        left: 156px;
+        top: 520px;
+        width: calc(100% - 182px);
+        height: 58px;
+      }
+
+      .line-accent {
+        left: 26px;
+        bottom: 206px;
+      }
+
+      .stats {
+        left: 26px;
+        right: 26px;
+        bottom: 48px;
+        gap: 14px;
+      }
+
+      .stat strong {
+        min-width: 64px;
+        font-size: 22px;
+      }
+
+      .left-block,
+      .outline-box {
+        opacity: 0.92;
+      }
+    }
+
   </style>
 </head>
 <body>
