@@ -697,38 +697,7 @@
        1) BASE DE ESTUDIANTES DE PRUEBA
        - Luego la cambias fácil aquí
     ========================================================= */
-    const estudiantes = {
-      EST001: {
-        codigo: "EST001",
-        nombre: "Andrea Luciana Torres",
-        nivel: "Primaria 6to",
-        edad: 11
-      },
-      EST002: {
-        codigo: "EST002",
-        nombre: "Carlos Javier Quispe",
-        nivel: "Secundaria 2do",
-        edad: 13
-      },
-      EST003: {
-        codigo: "EST003",
-        nombre: "Valeria Fernanda López",
-        nivel: "Secundaria 4to",
-        edad: 15
-      },
-      EST004: {
-        codigo: "EST004",
-        nombre: "Diego Alonso Medina",
-        nivel: "Primaria 5to",
-        edad: 10
-      },
-      EST005: {
-        codigo: "EST005",
-        nombre: "Camila Sofía Ramos",
-        nivel: "Secundaria 3ro",
-        edad: 14
-      }
-    };
+
 
     /* =========================================================
        2) REFERENCIAS DEL DOM
@@ -790,36 +759,53 @@
     /* =========================================================
        5) VALIDACIÓN DE CÓDIGO Y REDIRECCIÓN
     ========================================================= */
-    function procesarIngreso() {
-      const codigoIngresado = inputCodigo.value.trim().toUpperCase();
+async function procesarIngreso() {
+  const codigoIngresado = inputCodigo.value.trim().toUpperCase();
 
-      if (!codigoIngresado) {
-        mostrarError("Ingrese un código antes de continuar.");
-        inputCodigo.focus();
-        return;
-      }
+  if (!codigoIngresado) {
+    mostrarError("Ingrese un código antes de continuar.");
+    inputCodigo.focus();
+    return;
+  }
 
-      const estudiante = estudiantes[codigoIngresado];
+  try {
+    const response = await fetch("http://127.0.0.1:8000/validar-codigo", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        codigo: codigoIngresado
+      })
+    });
 
-      if (!estudiante) {
-        mostrarError("Código no reconocido.");
-        return;
-      }
+    const data = await response.json();
 
-      limpiarError();
-
-      localStorage.setItem("estudianteActivo", JSON.stringify(estudiante));
-
-      loginButton.textContent = "Validando acceso...";
-      loginButton.disabled = true;
-      loginButton.style.opacity = "0.88";
-      loginButton.style.cursor = "wait";
-      loginButton.style.animation = "subtlePulseGlow 1.2s ease-in-out infinite";
-
-      setTimeout(() => {
-        window.location.href = "Bienvenido.html";
-      }, 950);
+    if (!data.ok) {
+      mostrarError(data.mensaje);
+      return;
     }
+
+    // ✅ acceso válido
+    limpiarError();
+
+    localStorage.setItem("estudianteActivo", JSON.stringify(data.estudiante));
+
+    loginButton.textContent = "Validando acceso...";
+    loginButton.disabled = true;
+    loginButton.style.opacity = "0.88";
+    loginButton.style.cursor = "wait";
+    loginButton.style.animation = "subtlePulseGlow 1.2s ease-in-out infinite";
+
+    setTimeout(() => {
+      window.location.href = "Bienvenido.html";
+    }, 950);
+
+  } catch (error) {
+    mostrarError("Error de conexión con el servidor.");
+    console.error(error);
+  }
+}
 
     /* =========================================================
        6) EVENTOS
