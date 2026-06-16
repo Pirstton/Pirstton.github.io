@@ -768,45 +768,21 @@ async function procesarIngreso() {
     return;
   }
 
-  try {
-    const response = await fetch("http://127.0.0.1:8000/validar-codigo", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify({
-        codigo: codigoIngresado
-      })
-    });
+  limpiarError();
 
-    const data = await response.json();
+  // Guardamos temporalmente el código ingresado
+  localStorage.setItem("codigoIngresado", codigoIngresado);
 
-    if (!data.ok) {
-      mostrarError(data.mensaje);
-      return;
-    }
+  loginButton.textContent = "Ingresando...";
+  loginButton.disabled = true;
+  loginButton.style.opacity = "0.88";
+  loginButton.style.cursor = "wait";
+  loginButton.style.animation = "subtlePulseGlow 1.2s ease-in-out infinite";
 
-    // ✅ acceso válido
-    limpiarError();
-
-    localStorage.setItem("estudianteActivo", JSON.stringify(data.estudiante));
-
-    loginButton.textContent = "Validando acceso...";
-    loginButton.disabled = true;
-    loginButton.style.opacity = "0.88";
-    loginButton.style.cursor = "wait";
-    loginButton.style.animation = "subtlePulseGlow 1.2s ease-in-out infinite";
-
-    setTimeout(() => {
-      window.location.href = "Bienvenido.html";
-    }, 950);
-
-  } catch (error) {
-    mostrarError("Error de conexión con el servidor.");
-    console.error(error);
-  }
+  setTimeout(() => {
+    window.location.href = "Bienvenido.html";
+  }, 950);
 }
-
     /* =========================================================
        6) EVENTOS
     ========================================================= */
